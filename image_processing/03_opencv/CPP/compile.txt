@@ -1,0 +1,3 @@
+compile :
+
+g++ *.cpp -o run07 -std=c++11 -ID:/tools/opencv/build/install/include/ -LD:\tools\opencv\build\install\x64\mingw\lib -llibopencv_core490 -llibopencv_highgui490 -llibopencv_calib3d490 -llibopencv_dnn490 -llibopencv_features2d490 -llibopencv_flann490 -llibopencv_gapi490 -llibopencv_highgui490 -llibopencv_imgcodecs490 -llibopencv_imgproc490 -llibopencv_ml490 -llibopencv_objdetect490 -llibopencv_photo490 -llibopencv_stitching490 -llibopencv_video490 -llibopencv_videoio490

@@ -32,7 +32,7 @@ class ImagePGM:
         self.pixels = []        # Value of each pixel
         self.readImagePGM(filename)
     
-    def readImagePGM(self, filename: str) -> bool:
+    def readImagePGM(self, filename: str) -> None:
         """
         Read a PGM image from a file and store its information.
 
@@ -76,7 +76,7 @@ class ImagePGM:
                 return False
             return True
 
-    def writeImagePGM(self, filename: str) -> bool:
+    def writeImagePGM(self, filename: str) -> None:
         """
         Write a PGM image to a file.
 
@@ -100,7 +100,43 @@ class ImagePGM:
             # Write the pixel data
             for row in self.pixels:
                 f.write(' '.join(map(str, row)) + '\n')
+
+    def rotateImagePGM(self) -> None:
+        """
+        Rotate the image.
+
+        This function transposes the image matrix and then reverses each row to rotate the image 90 degrees clockwise.
         
+        """
+        print("Width = ", self.width)
+        print("Pixel[0][W-1] = ", self.pixels[0][self.width-1])
+
+        # Create a transposed matrix with swapped dimensions
+        transposed = [[0] * self.height for _ in range(self.width)]
+
+        # Fill in the transposed matrix
+        for i in range(self.height):
+            for j in range(len(self.pixels[i])):
+                transposed[j][i] = self.pixels[i][j]
+
+        # Resize the image matrix to match the new dimensions
+        self.pixels = [[0] * self.height for _ in range(self.width)]
+
+        # Copy the transposed matrix to the image matrix
+        for i in range(self.width):
+            for j in range(self.height):
+                self.pixels[i][j] = transposed[i][j]
+
+        # Swap the width and height
+        self.width, self.height = self.height, self.width
+
+        # Reverse each row of the image matrix
+        for row in self.pixels:
+            row.reverse()
+
+        print("Rotate OK")
+
+ 
         
     def __str__(self) -> str:
         """

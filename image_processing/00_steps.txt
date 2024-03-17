@@ -28,6 +28,10 @@ To do ?
 * :file:`05_imagePGM_dilate_erode` : introducing the dilatation and erosion transforms.
 * :file:`06_imagePGM_opening_closing` : introducing the opening and closing transforms.
 
-03_OPENCV ?
-===========
+03_OPENCV
+=========
 
+* Install OpenCV on Windows for MingW64  - could be long...
+* :file:`07_opencv_first_try` : introducing OpenCV, open and display an image. /!\ OpenCV create a 3 channels image (R,G,B) even if the initial image is in grayscale. 
+* :file:`08_opencv_mean_filters` : convolution with a specific kernel.
+* :file:`09_opencv_erode_opening` : erosion, dilatation, opening and closing on image.

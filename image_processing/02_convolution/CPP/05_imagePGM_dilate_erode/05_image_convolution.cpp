@@ -9,7 +9,7 @@
 int main(int argc, char** argv) {
 		
     // Read the input PGM image
-    ImagePGM image("../../../_data/black_white.pgm");
+    ImagePGM image("../../../_data/robot.pgm");
     ImagePGM image_dil;
 	
 	// Time measurement

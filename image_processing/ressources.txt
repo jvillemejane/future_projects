@@ -10,3 +10,5 @@ Library to open images : https://github.com/nothings/stb
 
 
 OpenCV without VSCode : https://www.youtube.com/watch?v=Kyugg8LFLKw&ab_channel=RafaHern%C3%A1ndez
+
+OpenCV Tutorials : https://www.opencv-srf.com/p/introduction.html
