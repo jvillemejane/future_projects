@@ -7,7 +7,7 @@
 
 int main(int argc, char** argv) {
     // Read the input PGM image
-    ImagePGM image("../../_data/robot.pgm");
+    ImagePGM image("../../../_data/robot.pgm");
 
 	std::cout << "Infos" << std::endl;
 	std::cout << image << std::endl;

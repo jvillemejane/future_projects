@@ -9,7 +9,7 @@
 int main(int argc, char** argv) {
 		
     // Read the input PGM image
-    ImagePGM image("../../_data/black_white.pgm");
+    ImagePGM image("../../../_data/black_white.pgm");
     ImagePGM image_opening;
 	
 	// Time measurement
@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
 	}
 
 	// Test of an opening
-    ImagePGM robot("../../_data/robot.pgm");
+    ImagePGM robot("../../../_data/robot.pgm");
 	
 	start = std::chrono::high_resolution_clock::now();	// time starts
 	image_opening = robot.closingImagePGM(ker_struct);

@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
 	
     // Read the input PGM image
 	start = std::chrono::high_resolution_clock::now();	// time starts
-    ImagePGM image("../../_data/robot.pgm");
+    ImagePGM image("../../../_data/robot.pgm");
 	end = std::chrono::high_resolution_clock::now();	// time stops
 
 	duration = end - start;
