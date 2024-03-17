@@ -227,6 +227,29 @@ ImagePGM ImagePGM::erodeImagePGM(Kernel& ker){
 	return result;	
 }
 
+
+// Opening morphotological transform
+ImagePGM ImagePGM::openingImagePGM(Kernel& ker){
+	ImagePGM result;
+	// Erosion
+	result = this->erodeImagePGM(ker);
+	// Dilatation
+	result = result.dilateImagePGM(ker);
+	// Result
+	return result;
+}	
+
+// Closing morphotological transform
+ImagePGM ImagePGM::closingImagePGM(Kernel& ker){
+	ImagePGM result;
+	// Erosion
+	result = this->dilateImagePGM(ker);
+	// Dilatation
+	result = result.erodeImagePGM(ker);
+	// Result
+	return result;
+}
+
 // Get the total number of pixels
 int ImagePGM::getNbPixels(void){
 	return this->width*this->height;

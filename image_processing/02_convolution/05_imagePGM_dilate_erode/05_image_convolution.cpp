@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
     ImagePGM image_dil;
 	
 	// Time measurement
-	std::chrono::duration<double, std::milli> duration;
+	std::chrono::duration<double, std::micro> duration;
 	std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
 	
 	
@@ -28,13 +28,28 @@ int main(int argc, char** argv) {
 	end = std::chrono::high_resolution_clock::now();	// time stops
 
 	duration = end - start;
-    std::cout << "Execution time of dilatation: " << duration.count() << " milliseconds" << std::endl;
-	std::cout << "Execution time of dilatation / pixel: " << duration.count() / image.getNbPixels() * 1000 << " microseconds/pixel" << std::endl;
+    std::cout << "Execution time of dilatation: " << duration.count() << " microseconds" << std::endl;
+	std::cout << "Execution time of dilatation / pixel: " << duration.count() / image.getNbPixels() << " microseconds/pixel" << std::endl;
 
 
 	if(image_dil.writeImagePGM("black_white_dilatation.pgm")){
 		std::cout << "Image written" << std::endl;
 	}
-	
+
+	// Test of a erosion
+		
+	start = std::chrono::high_resolution_clock::now();	// time starts
+	image_dil = image.erodeImagePGM(ker_struct);
+	end = std::chrono::high_resolution_clock::now();	// time stops
+
+	duration = end - start;
+    std::cout << "Execution time of erosion: " << duration.count() << " microseconds" << std::endl;
+	std::cout << "Execution time of erosion / pixel: " << duration.count() / image.getNbPixels() << " microseconds/pixel" << std::endl;
+
+
+	if(image_dil.writeImagePGM("black_white_erosion.pgm")){
+		std::cout << "Image written" << std::endl;
+	}	
+
     return 0;
 }

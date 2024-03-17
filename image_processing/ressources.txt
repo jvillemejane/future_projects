@@ -7,3 +7,6 @@ Image processing : https://graphics.stanford.edu/courses/cs148-10-summer/
 
 
 Library to open images : https://github.com/nothings/stb
+
+
+OpenCV without VSCode : https://www.youtube.com/watch?v=Kyugg8LFLKw&ab_channel=RafaHern%C3%A1ndez

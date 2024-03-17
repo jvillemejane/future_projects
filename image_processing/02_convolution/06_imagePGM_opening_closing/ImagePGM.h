@@ -58,6 +58,18 @@ class ImagePGM {
 		ImagePGM erodeImagePGM(Kernel& ker);
 		
 		/**
+		 * @brief Opening transform on the image with a specific Kernel.
+		 * @param ker Kernel for erosion.
+		 */		
+		ImagePGM openingImagePGM(Kernel& ker);
+		
+		/**
+		 * @brief Closing transform on the image with a specific Kernel.
+		 * @param ker Kernel for erosion.
+		 */		
+		ImagePGM closingImagePGM(Kernel& ker);
+		
+		/**
 		 * @brief Set the size of the image.
 		 * @param t_width Width of the image.
 		 * @param t_height Height of the image.
