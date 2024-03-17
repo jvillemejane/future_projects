@@ -24,3 +24,36 @@ In image processing, filters are used to modify or enhance images by applying ma
    - **Adaptive Median Filter**: This filter adjusts its filter size dynamically to handle varying levels of noise in different regions of an image.
 
 These are just a few examples of the main filters used in image processing. Depending on the specific application and requirements, other specialized filters and techniques may also be employed.
+
+
+
+
+
+In digital image processing, linear filters are commonly used for various purposes such as noise reduction, edge detection, blurring, sharpening, and more. Here are some common types of linear filters:
+
+1. **Smoothing Filters**:
+   - **Gaussian Filter**: It applies a weighted average to each pixel based on its neighborhood, with weights defined by a Gaussian function. Gaussian filters are commonly used for noise reduction and image blurring.
+   - **Mean Filter**: It replaces each pixel value with the average value of its neighborhood. Mean filters are simple and effective for smoothing images, but they can blur edges.
+   - **Median Filter**: It replaces each pixel value with the median value of its neighborhood. Median filters are effective for removing impulse noise (salt-and-pepper noise) while preserving edges.
+
+2. **Edge Detection Filters**:
+   - **Sobel Filter**: It computes the gradient of the image intensity, highlighting edges by emphasizing areas of high spatial intensity change.
+   - **Prewitt Filter**: Similar to the Sobel filter, but with a slightly different kernel.
+   - **Laplacian Filter**: It highlights regions of rapid intensity change, effectively detecting edges.
+
+3. **Sharpening Filters**:
+   - **Laplacian Filter**: Besides edge detection, the Laplacian filter can also be used for image sharpening by enhancing high-frequency components.
+   - **Unsharp Masking**: It involves subtracting a blurred version of the image from the original image to enhance edges and fine details.
+
+4. **Blur Filters**:
+   - **Box Filter**: It applies a simple average to each pixel and its neighbors, resulting in a uniform blurring effect.
+   - **Gaussian Filter**: Besides noise reduction, Gaussian filters can also be used for image blurring.
+
+5. **Gradient Filters**:
+   - **Sobel Filter**: Besides edge detection, Sobel filters can also be used to compute gradients in different directions.
+   - **Prewitt Filter**: Similar to Sobel, Prewitt filters are used for gradient computation.
+
+6. **Anisotropic Diffusion Filters**:
+   - These filters are used to reduce noise while preserving edges. Examples include Perona-Malik filter and Total Variation (TV) denoising.
+
+These are just a few examples of linear filters used in digital image processing. Depending on the specific application and requirements, different filters and variations may be employed. Additionally, non-linear filters such as median filters and bilateral filters are also widely used in image processing for various purposes.
