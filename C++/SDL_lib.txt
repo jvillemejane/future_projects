@@ -1,0 +1,47 @@
+SDL graphics library for C/C++
+##############################
+
+
+https://www.libsdl.org/
+
+Installation
+************
+
+Clone from git : https://github.com/libsdl-org/SDL.git
+
+Installation uses CMake. https://cmake.org/download/
+
+
+Windows building with mingw-w64 for x86
+=======================================
+
+Run successively as admin: 
+
+* cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=./build-scripts/cmake-toolchain-mingw64-i686.cmake
+* cmake --build build
+* cmake --install build
+
+
+Windows building with mingw-w64 for x64
+=======================================
+
+Run successively as admin: 
+
+* cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=./build-scripts/cmake-toolchain-mingw64-x86_64.cmake 
+* cmake --build build 
+* cmake --install build
+
+macOS with Xcode
+================
+
+Read docs/README-macos.md
+
+macOS from the command line
+===========================
+
+Run: cmake -S . -B build && cmake --build build && cmake --install build
+
+Linux and other UNIX systems
+============================
+
+Run: cmake -S . -B build && cmake --build build && cmake --install build

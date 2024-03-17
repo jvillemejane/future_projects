@@ -1,0 +1,26 @@
+In image processing, filters are used to modify or enhance images by applying mathematical operations to image pixels. Filters can be categorized into several types based on their functionality and application. Some of the main filters in image processing include:
+
+1. **Linear Filters**:
+   - **Smoothing Filters**: These filters are used to reduce noise and blur images by averaging pixel values in the neighborhood of each pixel. Examples include the Gaussian filter, mean filter, and median filter.
+   - **Edge Detection Filters**: These filters are used to detect edges and boundaries in images by enhancing gradients and discontinuities in pixel intensity. Examples include the Sobel filter, Prewitt filter, and Laplacian filter.
+   - **Sharpening Filters**: These filters enhance image details and emphasize edges by amplifying high-frequency components in images. Examples include the unsharp mask filter and the high-pass filter.
+
+2. **Non-linear Filters**:
+   - **Median Filter**: This filter replaces each pixel value with the median value in its neighborhood, making it effective for removing salt-and-pepper noise.
+   - **Bilateral Filter**: This filter smooths images while preserving edges by considering both spatial proximity and intensity similarity between pixels.
+   - **Non-local Means Filter**: This filter removes noise by averaging pixel values across the entire image while preserving image details.
+
+3. **Frequency Domain Filters**:
+   - **Low-pass Filters**: These filters attenuate high-frequency components in the frequency domain, effectively smoothing images. Examples include the ideal low-pass filter, Butterworth filter, and Gaussian low-pass filter.
+   - **High-pass Filters**: These filters enhance high-frequency components in the frequency domain, emphasizing edges and details in images. Examples include the ideal high-pass filter, Butterworth filter, and Laplacian of Gaussian filter.
+
+4. **Morphological Filters**:
+   - **Erosion Filter**: This filter shrinks objects in binary images by removing pixels based on a defined structuring element.
+   - **Dilation Filter**: This filter expands objects in binary images by adding pixels based on a defined structuring element.
+   - **Opening and Closing Filters**: These filters are combinations of erosion and dilation operations and are used for smoothing and filling gaps in binary images.
+
+5. **Adaptive Filters**:
+   - **Adaptive Mean Filter**: This filter adapts its filter size based on local image characteristics, making it effective for removing noise while preserving image details.
+   - **Adaptive Median Filter**: This filter adjusts its filter size dynamically to handle varying levels of noise in different regions of an image.
+
+These are just a few examples of the main filters used in image processing. Depending on the specific application and requirements, other specialized filters and techniques may also be employed.

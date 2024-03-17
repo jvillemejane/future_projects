@@ -1,0 +1,30 @@
+What is an image ?
+##################
+
+An image is a **visual representation** or depiction of an object, scene, or concept. In the context of digital image processing, an image is typically **a two-dimensional array of pixels**. Each pixel represents a tiny unit of color or grayscale intensity. 
+
+There are different types of digital images, including:
+
+* Grayscale Images: Grayscale images consist of shades of gray, ranging from black to white, with each pixel representing a single intensity value.
+* Color Images: Color images consist of pixels with color information, typically represented using the RGB (Red, Green, Blue) color model. 
+* Binary Images: Binary images contain only two distinct pixel values, typically representing foreground and background regions. 
+* Vector Images: Vector images are represented using mathematical formulas or geometric primitives, such as points, lines, curves, and shapes. These images are resolution-independent and can be scaled without losing quality.
+
+
+
+What are the main characteristics of an image ?
+===============================================
+
+The main characteristics of a digital image include:
+
+* **Resolution**: it refers to the level of detail in an image and is typically measured in pixels. This resolution is based on the size of the 2D-array. An image has a **width** and an **height**.
+
+* **Pixel Depth** or Bit Depth: it refers to the number of bits used to represent the color or intensity of each pixel in an image. Common pixel depths include 8-bit (256 levels), 16-bit (65,536 levels), and 24-bit (16.7 million colors).
+
+* **Color Space**: it defines the range of colors that can be represented in an image. Common color spaces include RGB (Red, Green, Blue), CMYK (Cyan, Magenta, Yellow, Black), and Grayscale. 
+
+* **File Format**: It specifies how image data is stored and encoded in a digital file. Common image file formats include JPEG, PNG, GIF, TIFF, and BMP. Each format has its own compression method, metadata, and compatibility with different software and devices.
+
+How to describe an image in process ?
+=====================================
+

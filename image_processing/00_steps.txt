@@ -1,0 +1,15 @@
+
+01_images
+=========
+	
+Start by discovering PGM images (without compression - grayscale)
+
+* :file:`01_imagePGM_class` : a class that describes a PGM image and its content, with:
+	* :code:`readImagePGM` method to read an image from its file name 
+	* overloading of the << operator
+* :file:`02_imagePGM_modular` : the same as previously but with:
+	* separated files for class declaration, definition and main program
+	* :code:`writeImagePGM` method to write an image
+
+* rotate ?
+	

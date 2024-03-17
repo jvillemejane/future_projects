@@ -1,0 +1,14 @@
+Notions avancées
+################
+
+#. **Pointeurs et références** : Comprendre les concepts de pointeurs et de références, ainsi que leur utilisation pour gérer la mémoire et manipuler des données.
+
+#. **Gestion de la mémoire** : Apprendre à allouer et libérer la mémoire dynamiquement à l'aide des opérateurs new et delete, ainsi que l'utilisation de constructeurs et destructeurs pour la gestion automatique de la mémoire.
+
+#. **Gestion des erreurs** : Apprendre à gérer les erreurs et les exceptions à l'aide des mécanismes de gestion des exceptions en C++.
+
+#. **Other data types** :
+
+<tuple> ??  https://www.youtube.com/watch?v=T9-agjKW4PQ&list=PLzMcBGfZo4-lmGC8VW0iu6qfMHjy7gLQ3&index=16&ab_channel=TechWithTim
+
+<map> https://www.youtube.com/watch?v=7mwgA9XFIEQ&list=PLzMcBGfZo4-lmGC8VW0iu6qfMHjy7gLQ3&index=17&ab_channel=TechWithTim

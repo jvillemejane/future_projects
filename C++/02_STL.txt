@@ -1,0 +1,39 @@
+Bibliothèque standard
+#####################
+
+#. **Bibliothèques standard** : Se familiariser avec les fonctionnalités offertes par la bibliothèque standard C++ (STL), y compris les conteneurs (vector, map, set), les algorithmes, les itérateurs, etc.
+
+#. **Vecteurs** (ou "vectors" en anglais) : un des conteneurs les plus couramment utilisés de la bibliothèque standard C++ (STL - Standard Template Library). Ils offrent une alternative flexible et dynamique aux tableaux statiques en C++ en fournissant des fonctionnalités de redimensionnement automatique et une gestion de la mémoire dynamique.
+
+capacity()
+size()
+
+push_back()
+pop_back()
+
+shrink_to_fit()
+
+https://www.youtube.com/watch?v=RXzzE2wnnlo&list=PLzMcBGfZo4-lmGC8VW0iu6qfMHjy7gLQ3&index=18&ab_channel=TechWithTim
+
+Vecteurs
+========
+
+Voici quelques points importants à savoir sur les vecteurs en C++ :
+
+1. **Dynamic Resizing**: Les vecteurs peuvent stocker une collection d'éléments de manière dynamique et sont capables de redimensionner automatiquement leur taille pour accueillir de nouveaux éléments. Cela signifie que les développeurs n'ont pas besoin de gérer manuellement la mémoire lorsque la taille du vecteur change.
+
+2. **Accès aléatoire**: Les éléments d'un vecteur peuvent être accédés efficacement en utilisant des indices, offrant un accès aléatoire en temps constant (\(O(1)\)).
+
+3. **Facilité d'utilisation**: Les vecteurs sont faciles à utiliser grâce à une interface intuitive et à une variété de fonctions membres pour ajouter, supprimer, insérer et accéder aux éléments du vecteur.
+
+4. **Compatibilité avec les itérateurs**: Les vecteurs sont compatibles avec les itérateurs de la STL, ce qui permet d'itérer facilement sur les éléments du vecteur à l'aide de boucles.
+
+5. **Gestion de la mémoire**: Les vecteurs gèrent automatiquement la mémoire pour stocker les éléments, ce qui évite les fuites de mémoire et les problèmes de fragmentation.
+
+6. **Complexité temporelle**: Les opérations courantes sur les vecteurs, telles que l'ajout ou la suppression d'éléments en fin de vecteur, ont une complexité temporelle moyenne d'amortissement constante (\(O(1)\)). Cependant, les insertions ou suppressions en milieu de vecteur ont une complexité linéaire (\(O(n)\)).
+
+7. **Types de données génériques**: Les vecteurs peuvent stocker n'importe quel type de données, y compris les types primitifs, les objets et même d'autres conteneurs.
+
+En résumé, les vecteurs en C++ sont extrêmement utiles pour stocker et gérer des collections dynamiques d'éléments, offrant une souplesse, une efficacité et une facilité d'utilisation importantes par rapport aux tableaux statiques.
+
+

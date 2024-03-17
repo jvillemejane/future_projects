@@ -1,0 +1,27 @@
+Notions basiques
+################
+
+#. **Syntaxe de base** : Comprendre la syntaxe du langage, y compris la déclaration de variables, les types de données, les opérateurs, les instructions de contrôle (if, else, for, while, switch), les fonctions, etc.
+
+#. **Types de données** : Connaître les différents types de données disponibles en C++, tels que les types primitifs (int, float, double, char) et les types composés (tableaux, chaînes de caractères, structures, classes).
+
+
+#. **Nommage des variables**
+
+#. **Entrées/sorties** : Savoir comment effectuer des opérations d'entrée/sortie à l'aide de la console (cin, cout) et de fichiers (ifstream, ofstream).
+
+cin avec string : getline(cin, var)
+
+cin.fail() pour savoir si pb dans donnée saisie / cin.clear()
+
+#. **Fonctions et procédures** : Comprendre comment définir et appeler des fonctions, ainsi que la portée des variables locales et globales.
+
+<cmath>
+
+
+#. **Modularité** : Comprendre comment diviser le code en plusieurs fichiers source et les organiser en modules logiques. Apprendre à créer des bibliothèques et à utiliser des fichiers d'en-tête.
+
+
+#. **Classes et objets** : Apprendre à définir des classes et à créer des objets à partir de ces classes. Comprendre les concepts d'encapsulation, d'héritage et de polymorphisme.
+
+
