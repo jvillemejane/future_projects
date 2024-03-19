@@ -3,7 +3,7 @@
 
 *image_display_widget* file that contains :
 
-    * :class::ImageDisplayWidget
+    * :class::SourceWidget
 
 .. note:: LEnsE - Institut d'Optique - version 0.1
 
@@ -40,10 +40,14 @@ class SourceWidget(QWidget):
         Default constructor of the class.
         """
         super().__init__(parent=None)
-        self.logo_widget = LogoLEnsEWidget(200, 300)
+        self.logo_widget = LogoLEnsEWidget(120, 250)
         self.title_label = QLabel('Demo Image Processing')
         self.title_label.setStyleSheet("color: purple; font-size: 20px;")
         self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        
+        self.list_name = QLabel('Processes to apply')
+        self.list_name.setStyleSheet("color: darkblue; font-size: 15px;")
+        self.list_name.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
         # 
         self.image_source_label = QLabel('Image :')
@@ -63,13 +67,6 @@ class SourceWidget(QWidget):
         self.main_layout = QGridLayout()
         self.main_layout.addWidget(self.logo_widget, 0, 0, 2, 1)
         self.main_layout.addWidget(self.title_label, 2, 0)
-        self.main_layout.setColumnStretch(0, 2)
-        self.main_layout.setColumnStretch(1, 1)
-        self.main_layout.setColumnStretch(2, 1)
-        self.main_layout.setColumnStretch(3, 1)
-        self.main_layout.setRowStretch(0, 1)
-        self.main_layout.setRowStretch(1, 1)
-        self.main_layout.setRowStretch(2, 1)
         self.main_layout.addWidget(self.image_source_label, 0, 1)
         self.main_layout.addWidget(self.image_source_name_label, 0, 2)
         self.main_layout.addWidget(self.image_source_button, 0, 3)
@@ -79,6 +76,15 @@ class SourceWidget(QWidget):
         self.main_layout.addWidget(self.sensor_source_label, 2, 1)
         self.main_layout.addWidget(self.sensor_source_name_label, 2, 2)
         self.main_layout.addWidget(self.sensor_source_button, 2, 3)
+        self.main_layout.addWidget(self.list_name, 3, 0, 1, 4)
+        self.main_layout.setColumnStretch(0, 2)
+        self.main_layout.setColumnStretch(1, 1)
+        self.main_layout.setColumnStretch(2, 1)
+        self.main_layout.setColumnStretch(3, 1)
+        self.main_layout.setRowStretch(0, 4)
+        self.main_layout.setRowStretch(1, 4)
+        self.main_layout.setRowStretch(2, 4)
+        self.main_layout.setRowStretch(3, 1)
         
         self.setLayout(self.main_layout)
 

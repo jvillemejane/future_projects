@@ -137,7 +137,7 @@ class Image:
         """
         return self.channels
         
-    def changeContrast(self, contrast:float) -> None:
+    def change_contrast(self, contrast:float) -> None:
         """
         Change the contrast of the image.
 
@@ -149,7 +149,7 @@ class Image:
             contrast = 1.0
         self.pixels = cv.convertScaleAbs(self.pixels, alpha=contrast)
 
-    def changeBrightness(self, brightness:int) -> None:
+    def change_brightness(self, brightness:int) -> None:
         """
         Change the brightness of the image.
 

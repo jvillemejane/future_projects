@@ -31,10 +31,12 @@ class ImageDisplayWidget(QWidget):
     
     """
     
-    def __init__(self, height: int = 0, width: int = 0 ) -> None:
+    def __init__(self, name: str = '', height: int = 0, width: int = 0 ) -> None:
         """
         Default constructor of the class.
-        
+
+        :param name: Name to display.
+        :type name: str           
         :param height: Height of the area.
         :type height: int   
         :param width: Width of the area.
@@ -47,13 +49,27 @@ class ImageDisplayWidget(QWidget):
         
         self.image = Image()  # Initial image
         self.image_resized = Image() # Resized image
-        self.image_display = QLabel()
+        self.image_display = QLabel(name)
                 
         # Graphical elements of the interface
         self.main_layout = QVBoxLayout() 
         self.main_layout.addWidget(self.image_display)
         
         self.setLayout(self.main_layout)
+
+    def set_image_from_image(self, image) -> None:
+        """
+        Open an image file from an image.
+
+        :param image: Image to display.
+        :type image: Image
+
+        """
+        self.image = image
+        self.image_resized = image
+        print(f'From IMAGE: {self.image_resized}')
+        self.display_image()
+        
 
     def set_image_from_path(self, filename: str, h: int = 0, w: int = 0) -> bool:
         """
@@ -72,10 +88,11 @@ class ImageDisplayWidget(QWidget):
         """
         success = self.image.open(filename)
         if w != 0 or h != 0:
-            self.image.resize_image_ratio(h, w)
+            self.image_resized = self.image.resize_image_ratio(h, w)
         elif self.width != 0 or self.height != 0:
-            self.image.resize_image_ratio(self.height, self.width)
-        self.image_resized = self.image
+            self.image_resized = self.image.resize_image_ratio(self.height, self.width)
+        else:
+            self.image_resized = self.image
         self.display_image()
         return success
         
@@ -93,7 +110,30 @@ class ImageDisplayWidget(QWidget):
         self.image.create(filename) 
         self.image_resized = self.image
 
-    def resize_display(self, h: int, w: int) -> None:
+    def set_size_display(self, h: int, w: int) -> None:
+        """
+        Set the size of the widget.
+        
+        :param h: Maximum height of the area.
+        :type h: int   
+        :param w: Maximum width of the area.
+        :type w: int 
+        
+        """
+        self.width = w
+        self.height = h
+      
+    def get_image(self) -> None:
+        """
+        Return the displayed image.
+        
+        :return: Image displayed in the widget.
+        :rtype: Image
+        
+        """
+        return self.image
+
+    def resize_image(self, h: int, w: int) -> None:
         """
         Resize the image.
         
@@ -104,6 +144,7 @@ class ImageDisplayWidget(QWidget):
         
         """
         max_height, max_width = self.image.getSize()
+         
         if h > max_height or w > max_width:
             # Resize at the maximum initial image size
             self.image_resized = self.image
@@ -119,10 +160,17 @@ class ImageDisplayWidget(QWidget):
 
         """    
         height, width = self.image_resized.getSize()
-        channels = self.image_resized.getChannels()    
+        print(f'Disp: {self.image_resized}')
+        channels = self.image_resized.getChannels() 
+        print(f'Disp: C= {channels}')
+        
         # Convert OpenCV image to QImage
         bytes_per_line = channels * width
-        q_image = QImage(self.image_resized.getPixels(), width, height, bytes_per_line, QImage.Format.Format_BGR888)
+        if channels == 1:
+            format = QImage.Format.Format_Grayscale8
+        else:
+            format = QImage.Format.Format_BGR888
+        q_image = QImage(self.image_resized.getPixels(), width, height, bytes_per_line, format)
         
         # Display QImage in QLabel
         self.image_display.setPixmap(QPixmap.fromImage(q_image))

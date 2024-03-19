@@ -62,128 +62,153 @@ class ImageProcess:
     :type image: Image
     
     """
-    
-    def __init__(self, image: Image) -> None:
-        """
-        Initialize the Image object.
-        
-        :param image: Image to process.
-        :type image: Image
-        
-        """
-        self.image = image      # Image to process
 
-    def binarize(self, treshold:int) -> Image:
+    @classmethod
+    def binarize(self, image:Image, params_dict:dict) -> Image:
         """
         Binarize an image.
         
-        :param treshold: Treshold for binarization of the image.
-        :type treshold: int        
+        :param image: Image to process.
+        :type image: Image
+        :param params_dict: Dictionary of parameters. 'treshold' entry is required.
+        :type params_dict: dict
+        
+        :return: New image.
+        :rtype: Image
         
         """
-        image = Image()
-        im_gray = cv.cvtColor(self.image.getPixels(), cv.COLOR_BGR2GRAY)
+        treshold = params_dict["treshold"]
+        result = Image()
+        im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
         ret, temp_array = cv.threshold(im_gray, treshold, 255, cv.THRESH_BINARY)
-        image.create(temp_array)
-        return image
+        result.create(temp_array)
+        print(f'Bin: {result}')
+        return result
     
-        
-
-    def blur(self, size:int) -> Image:
+    @classmethod
+    def blur(self, image:Image, params_dict:dict) -> Image:
         """
         Blur an image. Process a mean filter on the image.
         
-        :param size: Size of the kernel to process the filter.
-        :type size: int
+        :param image: Image to process.
+        :type image: Image
+        :param params_dict: Dictionary of parameters. 'size' entry is required.
+        :type params_dict: dict
+        
+        :return: New image.
+        :rtype: Image
         
         """
-        image = Image()
-        temp_array = cv.blur(self.image.getPixels(), (size, size));
-        image.create(temp_array)
-        return image
-    
-    def blur(self, size:int) -> Image:
-        """
-        Blur an image. Process a mean filter on the image.
-        
-        :param size: Size of the kernel to process the filter.
-        :type size: int
-        
-        """
-        image = Image()
-        temp_array = cv.blur(self.image.getPixels(), (size, size));
-        image.create(temp_array)
-        return image
-        
-    def convolve(self, kernel: np.ndarray) -> Image:
+        size = params_dict['size']
+        result = Image()
+        temp_array = cv.blur(image.getPixels(), (size, size));
+        result.create(temp_array)
+        return result
+      
+    @classmethod  
+    def convolve(self, image:Image, params_dict:dict) -> Image:
         """
         Process a convolution on an image with a specific kernel.
         
-        :param kernel: Kernel for process convolution.
-        :type kernel: np.ndarray
+        :param image: Image to process.
+        :type image: Image
+        :param params_dict: Dictionary of parameters. 'kernel' entry is required.
+        :type params_dict: dict
+        
+        :return: New image.
+        :rtype: Image
         
         """
-        image = Image()
-        im_gray = cv.cvtColor(self.image.getPixels(), cv.COLOR_BGR2GRAY)
+        result = Image()
+        kernel = params_dict['kernel']
+        im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
         temp_array = cv.filter2D(src=im_gray, ddepth=-1, kernel=kernel)
-        image.create(temp_array)
-        return image
+        result.create(temp_array)
+        return result
 
-    def erode(self, kernel: np.ndarray) -> Image:
+    @classmethod 
+    def erode(self, image:Image, params_dict:dict) -> Image:
         """
         Process an erosion on an image with a specific kernel.
         
-        :param kernel: Kernel for process erosion.
-        :type kernel: np.ndarray
+        :param image: Image to process.
+        :type image: Image
+        :param params_dict: Dictionary of parameters. 'kernel' entry is required.
+        :type params_dict: dict
+        
+        :return: New image.
+        :rtype: Image
         
         """        
-        image = Image()
-        im_gray = cv.cvtColor(self.image.getPixels(), cv.COLOR_BGR2GRAY)
+        result = Image()
+        kernel = params_dict['kernel']
+        im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
         temp_array = cv.erode(im_gray, kernel, cv.BORDER_REFLECT)
-        image.create(temp_array)
-        return image
+        result.create(temp_array)
+        return result
 
-    def dilate(self, kernel: np.ndarray) -> Image:
+    @classmethod 
+    def dilate(self, image:Image, params_dict:dict) -> Image:
         """
         Process a dilatation on an image with a specific kernel.
         
-        :param kernel: Kernel for process dilatation.
-        :type kernel: np.ndarray
+        :param image: Image to process.
+        :type image: Image
+        :param params_dict: Dictionary of parameters. 'kernel' entry is required.
+        :type params_dict: dict
+        
+        :return: New image.
+        :rtype: Image
         
         """        
-        image = Image()
-        im_gray = cv.cvtColor(self.image.getPixels(), cv.COLOR_BGR2GRAY)
+        result = Image()
+        kernel = params_dict['kernel']
+        im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
         temp_array = cv.dilate(im_gray, kernel, cv.BORDER_REFLECT)
-        image.create(temp_array)
-        return image
-        
-    def opening(self, kernel: np.ndarray) -> Image:
+        result.create(temp_array)
+        return result
+       
+    @classmethod  
+    def opening(self, image:Image, params_dict:dict) -> Image:
         """
         Process an opening on an image with a specific kernel.
         
-        :param kernel: Kernel for process dilatation.
-        :type kernel: np.ndarray
-        
-        """        
-        image = Image()
-        im_gray = cv.cvtColor(self.image.getPixels(), cv.COLOR_BGR2GRAY)
-        temp_array = cv.morphologyEx(im_gray, cv.MORPH_OPEN, kernel, cv.BORDER_REFLECT)
-        image.create(temp_array)
-        return image    
+        :param image: Image to process.
+        :type image: Image
+        :param params_dict: Dictionary of parameters. 'kernel' entry is required.
+        :type params_dict: dict
 
-    def closing(self, kernel: np.ndarray) -> Image:
+        :return: New image.
+        :rtype: Image
+        
+        """        
+        result = Image()
+        kernel = params_dict['kernel']
+        im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
+        temp_array = cv.morphologyEx(im_gray, cv.MORPH_OPEN, kernel, cv.BORDER_REFLECT)
+        result.create(temp_array)
+        return result    
+
+    @classmethod 
+    def closing(self, image:Image, params_dict:dict) -> Image:
         """
         Process an opening on an image with a specific kernel.
         
-        :param kernel: Kernel for process dilatation.
-        :type kernel: np.ndarray
+        :param image: Image to process.
+        :type image: Image
+        :param params_dict: Dictionary of parameters. 'kernel' entry is required.
+        :type params_dict: dict
+                
+        :return: New image.
+        :rtype: Image
         
         """        
-        image = Image()
-        im_gray = cv.cvtColor(self.image.getPixels(), cv.COLOR_BGR2GRAY)
+        result = Image()
+        kernel = params_dict['kernel']
+        im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
         temp_array = cv.morphologyEx(im_gray, cv.MORPH_CLOSE, kernel, cv.BORDER_REFLECT)
-        image.create(temp_array)
-        return image    
+        result.create(temp_array)
+        return result    
 
 # Main function
 if __name__ == "__main__":
@@ -192,46 +217,47 @@ if __name__ == "__main__":
     print(image)
     image.display()
     
-    '''
+    params = {}
+    
     print('Binarize 100')
     image_binarize = Image()
-    binarize_proc = ImageProcess(image)
-    image_binarize = binarize_proc.binarize(100)
+    params['treshold'] = 100
+    image_binarize = ImageProcess.binarize(image, params)
     image_binarize.display()
     
+    '''
     print('Blur 5')
     image_blur = Image()
-    blur_proc = ImageProcess(image)
-    image_blur = blur_proc.blur(5)
+    image_blur = ImageProcess.blur(image, 5)
     image_blur.display()
     
     print('Convolution with a Kernel')
     image_conv = Image()
-    conv_proc = ImageProcess(image)
-    image_conv = conv_proc.convolve(kernels['laplacian'])
+    image_conv = ImageProcess.convolve(image, kernels['laplacian'])
     image_conv.display()
     '''
     
     print('Erosion with a Kernel')
     image_erode = Image()
-    erode_proc = ImageProcess(image)
-    image_erode = erode_proc.erode(kernels['cross5'])
+    params['kernel'] = kernels['cross5']
+    image_erode = ImageProcess.erode(image, params)
     image_erode.display()   
     
     print('Dilatation with a Kernel')
     image_dilate = Image()
-    dilate_proc = ImageProcess(image)
-    image_dilate = dilate_proc.dilate(kernels['cross5'])
+    params['kernel'] = kernels['cross5']
+    image_dilate = ImageProcess.dilate(image, params)
     image_dilate.display()  
-
+    
+    '''
     print('Opening with a Kernel')
     image_opening = Image()
-    opening_proc = ImageProcess(image)
-    image_opening = opening_proc.opening(kernels['square5'])
+    image_opening = ImageProcess.opening(image, kernels['square5'])
     image_opening.display()   
 
     print('Closing with a Kernel')
     image_closing = Image()
-    closing_proc = ImageProcess(image)
-    image_closing = closing_proc.closing(kernels['square5'])
-    image_closing.display()  
+    image_closing = ImageProcess.closing(image, kernels['square5'])
+    image_closing.display() 
+    '''
+    
