@@ -82,7 +82,6 @@ class ImageProcess:
         im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
         ret, temp_array = cv.threshold(im_gray, treshold, 255, cv.THRESH_BINARY)
         result.create(temp_array)
-        print(f'Bin: {result}')
         return result
     
     @classmethod

@@ -23,15 +23,40 @@ from PyQt6.QtCore import Qt, pyqtSignal
 
 from image_process import ImageProcess
 
+# List of parameters for all the available process
+binarize_params = {
+    "function": ImageProcess.binarize,
+    "params": 'treshold;',
+    "treshold": 'int:0:255:'
+}
+blur_params = {
+    "function": ImageProcess.blur,
+    "params": 'kernel;size;',
+    "size": 'odd:1:25;'
+}
+dilate_params = {
+    "function": ImageProcess.dilate,
+    "params": 'kernel;'
+}
+erode_params = {
+    "function": ImageProcess.erode,
+    "params": 'kernel;'
+}
+
+# List of the available process / filters
 process_list = {
-    "binarize": ImageProcess.binarize,
-	"blur": ImageProcess.blur,
-    "dilate": ImageProcess.dilate,
-    "erode": ImageProcess.erode,
+    "binarize": binarize_params,
+	"blur": blur_params,
+    "dilate": dilate_params,
+    "erode": erode_params
+}
+'''
     "opening": ImageProcess.opening,
     "closing": ImageProcess.closing,
     "convolve": ImageProcess.convolve
 }
+'''
+
 
 class ProcessListWidget(QWidget):
     """Generate a widget to select a process to do on the initial image.
@@ -44,8 +69,7 @@ class ProcessListWidget(QWidget):
     changed = pyqtSignal(str)
     
     def __init__(self) -> None:
-        """
-        Default constructor of the class.
+        """Default constructor of the class.
         """
         super().__init__(parent=None)
         self.params_dict = {}
@@ -58,7 +82,6 @@ class ProcessListWidget(QWidget):
         self.selected = None
         self.processes_dict = {}
         for i, (item_name, item_function) in enumerate(process_list.items()):
-            print(item_name)
             self.processes_dict[item_name] = ProcessItem(item_name)
             self.processes_dict[item_name].changed.connect(self.action_checked)
             self.processes_dict[item_name].check_item.setEnabled(False)
@@ -68,33 +91,27 @@ class ProcessListWidget(QWidget):
         self.setLayout(self.main_layout)
     
     def action_checked(self, event) -> None:
-        """
-        Action performed when a process is checked
+        """Action performed when a process is checked
         """
         self.changed.emit(event)
         
     
     def enable(self) -> None:
+        """Activate all the checkbox and button of the interface
         """
-        Activate all the checkbox and button of the interface
-        """
-        print('enable')
         for i, (item_name, item_function) in enumerate(process_list.items()):
             self.processes_dict[item_name].check_item.setEnabled(True)
             self.processes_dict[item_name].params_item.setEnabled(True)
 
     def disable(self) -> None:
+        """Unactivate all the checkbox and button of the interface
         """
-        Unactivate all the checkbox and button of the interface
-        """
-        print('enable')
         for i, (item_name, item_function) in enumerate(process_list.items()):
             self.processes_dict[item_name].check_item.setEnabled(False)
             self.processes_dict[item_name].params_item.setEnabled(False)
 
     def uncheck_all(self) -> None:
-        """
-        Uncheck all the checkbox.
+        """Uncheck all the checkbox.
         """
         for i, (item_name, item_function) in enumerate(process_list.items()):
             self.processes_dict[item_name].check_item.setChecked(False)   
@@ -111,8 +128,7 @@ class ProcessItem(QWidget):
     changed = pyqtSignal(str)
     
     def __init__(self, name='') -> None:
-        """
-        Default constructor of the class.
+        """Default constructor of the class.
         
         :param name: Name of the item.
         :type name: str
@@ -123,6 +139,7 @@ class ProcessItem(QWidget):
         self.check_item = QCheckBox()
         self.check_item.clicked.connect(self.action_checked)
         self.params_item = QPushButton('Options')
+        self.params_item.clicked.connect(self.action_params)
         
         # Graphical elements of the interface
         self.main_layout = QGridLayout() 
@@ -138,6 +155,37 @@ class ProcessItem(QWidget):
         Action performed when a process is checked
         """
         self.changed.emit(self.name_label.text())
+        
+    def action_params(self, event) -> None:
+        if self.check_item.isChecked():
+            self.params_window = ProcessParams(self.name_label.text())
+            self.params_window.show()
+
+
+class ProcessParams(QWidget):
+    """ProcessParams class, children of QWidget.
+    
+    Class to display and to change the available parameters of a process.
+    
+    """
+    
+    def __init__(self, name:str =''):
+        """Default constructor of the class.
+        
+        :param name: Name of the process.
+        :type name: str
+        
+        """
+        super().__init__(parent=None)
+        # Main layout
+        self.main_layout = QVBoxLayout()
+        # Graphical objects
+        self.name_label = QLabel('Parameters of '+name)
+        self.main_layout.addWidget(self.name_label)
+        
+        
+        self.setFixedSize(300, 400)
+        self.setLayout(self.main_layout)
 
 if __name__ == "__main__":
 

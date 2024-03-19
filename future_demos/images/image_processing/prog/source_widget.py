@@ -94,7 +94,6 @@ class SourceWidget(QWidget):
         
         :param event: Triggering event.
         """
-        print('Image')
         filename, ok = QFileDialog.getOpenFileName(
             self,
             "Select an Image File", 

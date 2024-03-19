@@ -96,7 +96,6 @@ class DemoImageProcessing(QMainWindow):
         """
         Action performed when the process to apply change.
         """
-        print('Process changed: '+event)
         is_checked = False
         if self.process_list_widget.processes_dict[event].check_item.isChecked():
             is_checked = True
@@ -107,9 +106,8 @@ class DemoImageProcessing(QMainWindow):
             self.process_list_widget.params_dict["size"] = 3
             self.process_list_widget.params_dict["treshold"] = 110
             
-            temp_image = process_list[event](input_image, self.process_list_widget.params_dict)
+            temp_image = process_list[event]["function"](input_image, self.process_list_widget.params_dict)
             self.process_image_display_widget.set_image_from_image(temp_image)
-            print('Checked')
         
         self.process_list_widget.uncheck_all()
         if is_checked is True:
@@ -137,7 +135,6 @@ class DemoImageProcessing(QMainWindow):
             if self.is_image_set is True:
                 self.initial_image_display_widget.resize_image(height//2 - 20, width//2 - 20)
             if self.is_process_set is True:
-                print('Process Checked 1')
                 self.process_image_display_widget.resize_image(height//2 - 20, width//2 - 20)
         else:
             self.initial_image_display_widget.set_size_display(height//2, width//2)
@@ -145,7 +142,6 @@ class DemoImageProcessing(QMainWindow):
             if self.is_image_set is True:
                 self.initial_image_display_widget.resize_image(height//2, width//2)
             if self.is_process_set is True:
-                print('Process Checked 2')
                 self.process_image_display_widget.resize_image(height//2, width//2)        
 
         

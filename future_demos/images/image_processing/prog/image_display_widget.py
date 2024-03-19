@@ -67,7 +67,6 @@ class ImageDisplayWidget(QWidget):
         """
         self.image = image
         self.image_resized = image
-        print(f'From IMAGE: {self.image_resized}')
         self.display_image()
         
 
@@ -160,9 +159,7 @@ class ImageDisplayWidget(QWidget):
 
         """    
         height, width = self.image_resized.getSize()
-        print(f'Disp: {self.image_resized}')
         channels = self.image_resized.getChannels() 
-        print(f'Disp: C= {channels}')
         
         # Convert OpenCV image to QImage
         bytes_per_line = channels * width
