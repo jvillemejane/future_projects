@@ -167,12 +167,15 @@ class Image:
     
     def resize_image_ratio(self, new_height: int, new_width: int) -> None:
         """
-        Change the size of the image, with the same aspect ratio.
+        Create a new image at a different size, with the same aspect ratio.
 
         :param new_height: New height of the image.
         :type new_height: int
         :param new_width: New width of the image.
         :type new_width: int
+        
+        :return: A resized image.
+        :rtype: Image       
 
         """
         aspect_ratio = self.width / self.height
@@ -187,8 +190,11 @@ class Image:
             n_width = new_width
             n_height = int(n_width / aspect_ratio)
         
-        resized_image = cv.resize(self.pixels, (n_width, n_height))
-        self.create(resized_image)
+        resized_array = cv.resize(self.pixels, (n_width, n_height))
+        # Generate a new image
+        resized_image = Image()
+        resized_image.create(resized_array)
+        return resized_image
 
     def __str__(self) -> str:
         """

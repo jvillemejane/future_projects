@@ -45,16 +45,17 @@ class LogoLEnsEWidget(QWidget):
         """
         super().__init__(parent=None)
         self.image = Image()
+        self.resized_image = Image()
         self.image.open("./assets/logo_lense.png")
         self.image_display = QLabel()
         
-        self.image.resize_image_ratio(height, width)
+        self.resized_image = self.image.resize_image_ratio(height, width)
         
-        image_height, image_width = self.image.getSize()
+        image_height, image_width = self.resized_image.getSize()
         channels = self.image.getChannels()    
         # Convert OpenCV image to QImage
         bytes_per_line = channels * image_width
-        q_image = QImage(self.image.getPixels(), image_width, image_height, bytes_per_line, QImage.Format.Format_BGR888)
+        q_image = QImage(self.resized_image.getPixels(), image_width, image_height, bytes_per_line, QImage.Format.Format_BGR888)
         
         # Display QImage in QLabel
         self.image_display.setPixmap(QPixmap.fromImage(q_image))

@@ -47,15 +47,15 @@ class SourceWidget(QWidget):
         
         # 
         self.image_source_label = QLabel('Image :')
-        self.image_source_name_label = QLabel('TO DO')
+        self.image_source_name_label = QLabel('NO PICTURE')
         self.image_source_button = QPushButton('Load Image')
         self.image_source_button.clicked.connect(self.action_image_button)
         self.webcam_source_label = QLabel('Webcam :')
-        self.webcam_source_name_label = QLabel('TO DO')
+        self.webcam_source_name_label = QLabel('NOT YET IMPLEMENTED')
         self.webcam_source_button = QPushButton('Start Webcam')
         self.webcam_source_button.clicked.connect(self.action_webcam_button)
         self.sensor_source_label = QLabel('Sensor :')
-        self.sensor_source_name_label = QLabel('TO DO')
+        self.sensor_source_name_label = QLabel('NOT YET IMPLEMENTED')
         self.sensor_source_button = QPushButton('Start Sensor')
         self.sensor_source_button.clicked.connect(self.action_sensor_button)
         
@@ -95,6 +95,8 @@ class SourceWidget(QWidget):
             "", 
             "Images (*.png *.jpg)"
         )
+        file_name = filename.split('/')
+        self.image_source_name_label.setText(file_name[-1])
         self.loaded.emit('image;'+filename+';')
 
     def action_webcam_button(self, event):

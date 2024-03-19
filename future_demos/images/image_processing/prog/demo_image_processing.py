@@ -34,6 +34,7 @@ class DemoImageProcessing(QMainWindow):
         """
         super().__init__()
         self.resizeEvent = self.handle_resize
+        self.is_image_set = False
         
         self.setWindowTitle("Demo Image Processing / LEnsE")
         self.setGeometry(50, 50, 1200, 750)
@@ -41,12 +42,14 @@ class DemoImageProcessing(QMainWindow):
         
         self.central_layout = QGridLayout()
         
-        self.image_display_widget = ImageDisplayWidget(550, 400)
+        self.initial_image_display_widget = ImageDisplayWidget(100, 100)
         self.source_widget = SourceWidget()
         self.source_widget.loaded.connect(self.source_loaded)
+        self.process_image_display_widget = ImageDisplayWidget(100, 100)
         
         self.central_layout.addWidget(self.source_widget, 0, 0)
-        self.central_layout.addWidget(self.image_display_widget, 0, 1)
+        self.central_layout.addWidget(self.initial_image_display_widget, 0, 1)
+        self.central_layout.addWidget(self.output_image_display_widget, 1, 1)
         
         # Grid of 2 x 2 widgets with the same size
         self.central_layout.setRowStretch(0, 1)
@@ -65,8 +68,8 @@ class DemoImageProcessing(QMainWindow):
         """
         event_data = event.split(';')
         if event_data[0] == 'image':
-            print('load image : '+event_data[1])
-            self.image_display_widget.set_image_from_path(event_data[1])
+            self.is_image_set = self.initial_image_display_widget.set_image_from_path(event_data[1])
+            # TEST TO DO ON SIZE OF THE IMAGE COMPARED TO SIZE OF HALF OF THE WINDOW !! IF NOT OK, RESIZE !!
         elif event_data[0] == 'webcam':
             print('webcam - NOT YET IMPLEMENTED')
         elif event_data[0] == 'sensor':
@@ -78,8 +81,18 @@ class DemoImageProcessing(QMainWindow):
         """
         # Get the new size of the main window
         new_size = self.size()
-        print("New size:", new_size)
+        width = new_size.width()
+        height = new_size.height()
         
+        if self.is_image_set is True:
+            self.initial_image_display_widget.resize_display(height//2, width//2)
+        
+    def showEvent(self, event):
+        """
+        showEvent redefinition. Use when the window is loaded
+        """
+        super().showEvent(event)
+        self.handle_resize(event)
 
     def closeEvent(self, event) -> None:
         """

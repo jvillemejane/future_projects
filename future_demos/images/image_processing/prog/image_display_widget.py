@@ -45,7 +45,8 @@ class ImageDisplayWidget(QWidget):
         self.height = height
         self.width = width
         
-        self.image = Image()
+        self.image = Image()  # Initial image
+        self.image_resized = Image() # Resized image
         self.image_display = QLabel()
                 
         # Graphical elements of the interface
@@ -74,6 +75,7 @@ class ImageDisplayWidget(QWidget):
             self.image.resize_image_ratio(h, w)
         elif self.width != 0 or self.height != 0:
             self.image.resize_image_ratio(self.height, self.width)
+        self.image_resized = self.image
         self.display_image()
         return success
         
@@ -89,18 +91,38 @@ class ImageDisplayWidget(QWidget):
 
         """
         self.image.create(filename) 
+        self.image_resized = self.image
+
+    def resize_display(self, h: int, w: int) -> None:
+        """
+        Resize the image.
         
+        :param h: New height of the area.
+        :type h: int   
+        :param w: New width of the area.
+        :type w: int 
+        
+        """
+        max_height, max_width = self.image.getSize()
+        if h > max_height or w > max_width:
+            # Resize at the maximum initial image size
+            self.image_resized = self.image
+        if h > 20 and w > 20:
+            self.image_resized = self.image.resize_image_ratio(h-20, w-20)
+        else:
+            self.image_resized = self.image.resize_image_ratio(h, w)
+        self.display_image()
 
     def display_image(self) -> None:
         """
         Display the image.
 
         """    
-        height, width = self.image.getSize()
-        channels = self.image.getChannels()    
+        height, width = self.image_resized.getSize()
+        channels = self.image_resized.getChannels()    
         # Convert OpenCV image to QImage
         bytes_per_line = channels * width
-        q_image = QImage(self.image.getPixels(), width, height, bytes_per_line, QImage.Format.Format_BGR888)
+        q_image = QImage(self.image_resized.getPixels(), width, height, bytes_per_line, QImage.Format.Format_BGR888)
         
         # Display QImage in QLabel
         self.image_display.setPixmap(QPixmap.fromImage(q_image))
