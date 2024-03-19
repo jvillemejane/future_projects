@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""*image_display_widget* file.
+"""*logo_lense_widget* file.
 
-*image_display_widget* file that contains :
+    *logo_lense_widget* file that contains :
 
-    * :class::ImageDisplayWidget
+    * :class::LogoLEnsEWidget
 
 .. note:: LEnsE - Institut d'Optique - version 0.1
 
@@ -11,16 +11,16 @@
 """
 import numpy as np
 from image import Image
+import cv2 as cv
 
 from PyQt6.QtWidgets import (
     QWidget, QLabel,
-    QVBoxLayout,
-    QMessageBox
+    QVBoxLayout
 )
 from PyQt6.QtGui import QPixmap, QImage
 
-class ImageDisplayWidget(QWidget):
-    """Generate a widget to display an image. Children of QWidget.
+class LogoLEnsEWidget(QWidget):
+    """Display the LEnsE logo. Children of QWidget.
     
     :param image: Image to display.
     :type image: Image
@@ -31,76 +31,60 @@ class ImageDisplayWidget(QWidget):
     
     """
     
-    def __init__(self) -> None:
+    def __init__(self, height:int, width:int) -> None:
         """
         Default constructor of the class.
+        
+        :param height: Height of the displayed image.
+        :type height: int  
+        :param width: Width of the displayed image.
+        :type width: int       
+        
         """
         super().__init__(parent=None)
         self.image = Image()
+        self.image.open("./assets/logo_lense.png")
         self.image_display = QLabel()
+
+        image_height, image_width = self.image.getSize()
+        aspect_ratio = image_width / image_height
+        print(f'AR = {aspect_ratio}')
+        
+        # Calculate new size with same aspect_ratio
+        new_width = width
+        new_height = int(new_width / aspect_ratio)
+        print(f'NH = {new_height} / OH = {height}')
+        print(f'NW = {new_width} / OW = {width}')
+        if new_height > height:
+            print('here')
+            new_height = height
+            new_width = int(new_height * aspect_ratio)
+        else:
+            print('not here')
+            new_width = width
+            new_height = int(new_width / aspect_ratio)
+        
+        
+        print(f'NH = {new_height} / NW = {new_width}')
+        
+        resized_image = cv.resize(self.image.getPixels(), (new_width, new_height))
+        self.image.create(resized_image)
+        
+        image_height, image_width = self.image.getSize()
+        channels = self.image.getChannels()    
+        # Convert OpenCV image to QImage
+        bytes_per_line = channels * image_width
+        q_image = QImage(self.image.getPixels(), image_width, image_height, bytes_per_line, QImage.Format.Format_BGR888)
+        
+        # Display QImage in QLabel
+        self.image_display.setPixmap(QPixmap.fromImage(q_image))
                 
         # Graphical elements of the interface
         self.main_layout = QVBoxLayout() 
         self.main_layout.addWidget(self.image_display)
         
-        self.setLayout(self.main_layout)
+        self.setLayout(self.main_layout)      
 
-    def set_image_from_path(self, filename: str) -> bool:
-        """
-        Open an image file from its path and filename.
-
-        :param filename: Name of the file.
-        :type filename: str
-        
-        :return: True if the file was successfully read, False otherwise.
-        :rtype: bool
-
-        """
-        success = self.image.open(filename)
-        self.display_image()
-        return success
-        
-    def set_image_from_array(self, pixels: np.ndarray) -> None:
-        """
-        Create an image from an array.
-
-        :param pixels: Array of pixels.
-        :type pixels: np.ndarray
-        
-        :return: True if the file was successfully read, False otherwise.
-        :rtype: bool
-
-        """
-        self.image.create(filename) 
-        
-
-    def display_image(self) -> None:
-        """
-        Display the image.
-
-        """    
-        height, width = self.image.getSize()
-        channels = self.image.getChannels()    
-        # Convert OpenCV image to QImage
-        bytes_per_line = channels * width
-        q_image = QImage(self.image.getPixels(), width, height, bytes_per_line, QImage.Format.Format_BGR888)
-        
-        # Display QImage in QLabel
-        self.image_display.setPixmap(QPixmap.fromImage(q_image))
-
-    def display_from_webcam(self) -> None:
-        """
-        Display image from a live acquisition (webcam).
-
-        """  
-        pass
-
-    def display_from_sensor(self) -> None:
-        """
-        Display image from an industrial sensor.
-
-        """  
-        pass
 
 
 if __name__ == "__main__":
@@ -112,10 +96,8 @@ if __name__ == "__main__":
     main_window = QMainWindow()
     main_window.setWindowTitle("Image_Display_Widget test")
     main_window.setGeometry(100, 100, 500, 400)
-    central_widget = ImageDisplayWidget()
+    central_widget = LogoLEnsEWidget(200,500)
     main_window.setCentralWidget(central_widget)
-    
-    central_widget.set_image_from_path('../_data/robot.jpg')
     
     main_window.show()
     sys.exit(app.exec())
