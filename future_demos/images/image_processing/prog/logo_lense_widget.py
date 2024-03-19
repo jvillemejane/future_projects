@@ -19,6 +19,8 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QPixmap, QImage
 
+
+
 class LogoLEnsEWidget(QWidget):
     """Display the LEnsE logo. Children of QWidget.
     
@@ -45,30 +47,8 @@ class LogoLEnsEWidget(QWidget):
         self.image = Image()
         self.image.open("./assets/logo_lense.png")
         self.image_display = QLabel()
-
-        image_height, image_width = self.image.getSize()
-        aspect_ratio = image_width / image_height
-        print(f'AR = {aspect_ratio}')
         
-        # Calculate new size with same aspect_ratio
-        new_width = width
-        new_height = int(new_width / aspect_ratio)
-        print(f'NH = {new_height} / OH = {height}')
-        print(f'NW = {new_width} / OW = {width}')
-        if new_height > height:
-            print('here')
-            new_height = height
-            new_width = int(new_height * aspect_ratio)
-        else:
-            print('not here')
-            new_width = width
-            new_height = int(new_width / aspect_ratio)
-        
-        
-        print(f'NH = {new_height} / NW = {new_width}')
-        
-        resized_image = cv.resize(self.image.getPixels(), (new_width, new_height))
-        self.image.create(resized_image)
+        self.image.resize_image_ratio(height, width)
         
         image_height, image_width = self.image.getSize()
         channels = self.image.getChannels()    

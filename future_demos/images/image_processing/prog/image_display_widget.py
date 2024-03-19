@@ -31,11 +31,20 @@ class ImageDisplayWidget(QWidget):
     
     """
     
-    def __init__(self) -> None:
+    def __init__(self, height: int = 0, width: int = 0 ) -> None:
         """
         Default constructor of the class.
+        
+        :param height: Height of the area.
+        :type height: int   
+        :param width: Width of the area.
+        :type width: int         
+        
         """
         super().__init__(parent=None)
+        self.height = height
+        self.width = width
+        
         self.image = Image()
         self.image_display = QLabel()
                 
@@ -45,18 +54,26 @@ class ImageDisplayWidget(QWidget):
         
         self.setLayout(self.main_layout)
 
-    def set_image_from_path(self, filename: str) -> bool:
+    def set_image_from_path(self, filename: str, h: int = 0, w: int = 0) -> bool:
         """
         Open an image file from its path and filename.
 
         :param filename: Name of the file.
         :type filename: str
+        :param h: Height of the area.
+        :type h: int   
+        :param w: Width of the area.
+        :type w: int    
         
         :return: True if the file was successfully read, False otherwise.
         :rtype: bool
 
         """
         success = self.image.open(filename)
+        if w != 0 or h != 0:
+            self.image.resize_image_ratio(h, w)
+        elif self.width != 0 or self.height != 0:
+            self.image.resize_image_ratio(self.height, self.width)
         self.display_image()
         return success
         

@@ -16,7 +16,7 @@ from logo_lense_widget import LogoLEnsEWidget
 from PyQt6.QtWidgets import (
     QWidget, QLabel, QPushButton,
     QGridLayout,
-    QMessageBox
+    QMessageBox, QFileDialog
 )
 from PyQt6.QtGui import QPixmap, QImage
 from PyQt6.QtCore import Qt, pyqtSignal
@@ -83,16 +83,37 @@ class SourceWidget(QWidget):
         self.setLayout(self.main_layout)
 
     def action_image_button(self, event):
+        """
+        Action performed after a click on the "load image" button.
+        
+        :param event: Triggering event.
+        """
         print('Image')
-        self.loaded.emit('image')
+        filename, ok = QFileDialog.getOpenFileName(
+            self,
+            "Select an Image File", 
+            "", 
+            "Images (*.png *.jpg)"
+        )
+        self.loaded.emit('image;'+filename+';')
 
     def action_webcam_button(self, event):
+        """
+        Action performed after a click on the "start webcam" button.
+        
+        :param event: Triggering event.
+        """
         print('Webcam')
-        self.loaded.emit('webcam')
+        self.loaded.emit('webcam;')
 
     def action_sensor_button(self, event):
+        """
+        Action performed after a click on the "start sensor" button.
+        
+        :param event: Triggering event.
+        """
         print('Sensor')
-        self.loaded.emit('sensor')
+        self.loaded.emit('sensor;')
 
 if __name__ == "__main__":
 

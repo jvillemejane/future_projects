@@ -163,7 +163,33 @@ class Image:
             brightness = -100
         brightness = brightness * 127 / 100
         self.pixels = cv.convertScaleAbs(self.pixels, beta=brightness)
-  
+
+    
+    def resize_image_ratio(self, new_height: int, new_width: int) -> None:
+        """
+        Change the size of the image, with the same aspect ratio.
+
+        :param new_height: New height of the image.
+        :type new_height: int
+        :param new_width: New width of the image.
+        :type new_width: int
+
+        """
+        aspect_ratio = self.width / self.height
+        
+        # Calculate new size with same aspect_ratio
+        n_width = new_width
+        n_height = int(n_width / aspect_ratio)
+        if n_height > new_height:
+            n_height = new_height
+            n_width = int(n_height * aspect_ratio)
+        else:
+            n_width = new_width
+            n_height = int(n_width / aspect_ratio)
+        
+        resized_image = cv.resize(self.pixels, (n_width, n_height))
+        self.create(resized_image)
+
     def __str__(self) -> str:
         """
         Return a string representation of the ImagePGM object.
