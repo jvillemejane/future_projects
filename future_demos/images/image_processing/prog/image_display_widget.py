@@ -14,10 +14,9 @@ from image import Image
 
 from PyQt6.QtWidgets import (
     QWidget, QLabel,
-    QVBoxLayout,
-    QMessageBox
+    QVBoxLayout
 )
-from PyQt6.QtGui import QPixmap, QImage
+from PyQt6.QtGui import QPixmap, QImage, QColor, QPalette
 
 class ImageDisplayWidget(QWidget):
     """Generate a widget to display an image. Children of QWidget.
@@ -31,25 +30,39 @@ class ImageDisplayWidget(QWidget):
     
     """
     
-    def __init__(self, name: str = '', height: int = 0, width: int = 0 ) -> None:
+    def __init__(self, name: str = '', height: int = 0, width: int = 0,
+                 bg: tuple[int, int, int] = (0, 0, 0)) -> None:
         """
         Default constructor of the class.
 
         :param name: Name to display.
         :type name: str           
-        :param height: Height of the area.
+        :param height: Height of the area. Default 0.
         :type height: int   
-        :param width: Width of the area.
-        :type width: int         
+        :param width: Width of the area. Default 0.
+        :type width: int
+        :param bg: Background of the widget. Default (0, 0, 0).
+        :type bg: tuple[int, int, int]
         
         """
         super().__init__(parent=None)
+        # Set background color for the entire widget
+        self.setAutoFillBackground(True)
+        palette = self.palette()
+        palette.setColor(self.backgroundRole(), QColor(bg[0], bg[1], bg[2]))
+        self.setPalette(palette)
+
         self.height = height
         self.width = width
         
         self.image = Image()  # Initial image
         self.image_resized = Image() # Resized image
         self.image_display = QLabel(name)
+        blank_image = np.ones((self.height, self.width, 3))
+        blank_image[:,:,0] = bg[0]*blank_image[:,:,0]
+        blank_image[:,:,1] = bg[1]*blank_image[:,:,1]
+        blank_image[:,:,2] = bg[2]*blank_image[:,:,2]
+        self.set_image_from_array(blank_image)
                 
         # Graphical elements of the interface
         self.main_layout = QVBoxLayout() 
@@ -68,7 +81,6 @@ class ImageDisplayWidget(QWidget):
         self.image = image
         self.image_resized = image
         self.display_image()
-        
 
     def set_image_from_path(self, filename: str, h: int = 0, w: int = 0) -> bool:
         """
@@ -106,8 +118,9 @@ class ImageDisplayWidget(QWidget):
         :rtype: bool
 
         """
-        self.image.create(filename) 
+        self.image.create(pixels)
         self.image_resized = self.image
+        self.display_image()
 
     def set_size_display(self, h: int, w: int) -> None:
         """
@@ -122,7 +135,7 @@ class ImageDisplayWidget(QWidget):
         self.width = w
         self.height = h
       
-    def get_image(self) -> None:
+    def get_image(self) -> Image:
         """
         Return the displayed image.
         

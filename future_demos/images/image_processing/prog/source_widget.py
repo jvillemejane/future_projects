@@ -16,9 +16,9 @@ from logo_lense_widget import LogoLEnsEWidget
 from PyQt6.QtWidgets import (
     QWidget, QLabel, QPushButton,
     QGridLayout,
-    QMessageBox, QFileDialog
+    QFileDialog
 )
-from PyQt6.QtGui import QPixmap, QImage
+from PyQt6.QtGui import QPalette, QColor
 from PyQt6.QtCore import Qt, pyqtSignal
 
 class SourceWidget(QWidget):
@@ -40,7 +40,13 @@ class SourceWidget(QWidget):
         Default constructor of the class.
         """
         super().__init__(parent=None)
-        self.logo_widget = LogoLEnsEWidget(120, 250)
+        # Set background color for the entire widget
+        self.setAutoFillBackground(True)
+        palette = self.palette()
+        palette.setColor(self.backgroundRole(), QColor("white"))
+        self.setPalette(palette)
+
+        self.logo_widget = LogoLEnsEWidget(150, 300)
         self.title_label = QLabel('Demo Image Processing')
         self.title_label.setStyleSheet("color: purple; font-size: 20px;")
         self.title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -65,26 +71,27 @@ class SourceWidget(QWidget):
         
         # Graphical elements of the interface
         self.main_layout = QGridLayout()
-        self.main_layout.addWidget(self.logo_widget, 0, 0, 2, 1)
-        self.main_layout.addWidget(self.title_label, 2, 0)
-        self.main_layout.addWidget(self.image_source_label, 0, 1)
-        self.main_layout.addWidget(self.image_source_name_label, 0, 2)
-        self.main_layout.addWidget(self.image_source_button, 0, 3)
-        self.main_layout.addWidget(self.webcam_source_label, 1, 1)
-        self.main_layout.addWidget(self.webcam_source_name_label, 1, 2)
-        self.main_layout.addWidget(self.webcam_source_button, 1, 3)
-        self.main_layout.addWidget(self.sensor_source_label, 2, 1)
-        self.main_layout.addWidget(self.sensor_source_name_label, 2, 2)
-        self.main_layout.addWidget(self.sensor_source_button, 2, 3)
-        self.main_layout.addWidget(self.list_name, 3, 0, 1, 4)
-        self.main_layout.setColumnStretch(0, 2)
+        self.main_layout.addWidget(self.logo_widget, 0, 0, 1, 3)
+        self.main_layout.addWidget(self.title_label, 1, 0, 1, 3)
+        self.main_layout.addWidget(self.image_source_label, 2, 0)
+        self.main_layout.addWidget(self.image_source_name_label, 2, 1)
+        self.main_layout.addWidget(self.image_source_button, 2, 2)
+        self.main_layout.addWidget(self.webcam_source_label, 3, 0)
+        self.main_layout.addWidget(self.webcam_source_name_label, 3, 1)
+        self.main_layout.addWidget(self.webcam_source_button, 3, 2)
+        self.main_layout.addWidget(self.sensor_source_label, 4, 0)
+        self.main_layout.addWidget(self.sensor_source_name_label, 4, 1)
+        self.main_layout.addWidget(self.sensor_source_button, 4, 2)
+        self.main_layout.addWidget(self.list_name, 5, 0, 1, 3)
+        self.main_layout.setColumnStretch(0, 1)
         self.main_layout.setColumnStretch(1, 1)
         self.main_layout.setColumnStretch(2, 1)
-        self.main_layout.setColumnStretch(3, 1)
         self.main_layout.setRowStretch(0, 4)
         self.main_layout.setRowStretch(1, 4)
         self.main_layout.setRowStretch(2, 4)
         self.main_layout.setRowStretch(3, 1)
+        self.main_layout.setRowStretch(4, 1)
+        self.main_layout.setRowStretch(5, 1)
         
         self.setLayout(self.main_layout)
 
@@ -133,7 +140,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_window = QMainWindow()
     main_window.setWindowTitle("Source_Widget test")
-    main_window.setGeometry(100, 100, 1000, 600)
+    main_window.setGeometry(100, 100, 400, 300)
     central_widget = SourceWidget()
     main_window.setCentralWidget(central_widget)
     

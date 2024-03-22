@@ -70,17 +70,17 @@ class ImageProcess:
         
         :param image: Image to process.
         :type image: Image
-        :param params_dict: Dictionary of parameters. 'treshold' entry is required.
+        :param params_dict: Dictionary of parameters. 'threshold' entry is required.
         :type params_dict: dict
         
         :return: New image.
         :rtype: Image
         
         """
-        treshold = params_dict["treshold"]
+        threshold = params_dict["threshold"]
         result = Image()
         im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
-        ret, temp_array = cv.threshold(im_gray, treshold, 255, cv.THRESH_BINARY)
+        ret, temp_array = cv.threshold(im_gray, threshold, 255, cv.THRESH_BINARY)
         result.create(temp_array)
         return result
     
@@ -220,7 +220,7 @@ if __name__ == "__main__":
     
     print('Binarize 100')
     image_binarize = Image()
-    params['treshold'] = 100
+    params['threshold'] = 100
     image_binarize = ImageProcess.binarize(image, params)
     image_binarize.display()
     

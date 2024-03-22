@@ -79,8 +79,8 @@ class Image:
         
         """
         self.pixels = pixels        
-        self.height = self.pixels.shape[0];	
-        self.width = self.pixels.shape[1];
+        self.height = self.pixels.shape[0]
+        self.width = self.pixels.shape[1]
         if len(self.pixels.shape) > 2:
             self.channels = self.pixels.shape[2]
         else:
@@ -165,7 +165,7 @@ class Image:
         self.pixels = cv.convertScaleAbs(self.pixels, beta=brightness)
 
     
-    def resize_image_ratio(self, new_height: int, new_width: int) -> None:
+    def resize_image_ratio(self, new_height: int, new_width: int) -> np.ndarray:
         """
         Create a new image at a different size, with the same aspect ratio.
 

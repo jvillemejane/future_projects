@@ -18,6 +18,7 @@ from PyQt6.QtWidgets import (
     QVBoxLayout
 )
 from PyQt6.QtGui import QPixmap, QImage
+from PyQt6.QtCore import Qt
 
 
 
@@ -48,6 +49,7 @@ class LogoLEnsEWidget(QWidget):
         self.resized_image = Image()
         self.image.open("./assets/logo_lense.png")
         self.image_display = QLabel()
+        self.image_display.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
         self.resized_image = self.image.resize_image_ratio(height, width)
         
