@@ -129,8 +129,8 @@ class DemoImageProcessing(QMainWindow):
         """
         Action performed when the process to apply change.
         """
+        print('OK_process ' + event)
         try:
-            print('Demo_Signal CHANGED')
             input_image = self.initial_image_display_widget.get_image()
             is_checked = False
             if self.process_list_widget.processes_dict[event].check_item.isChecked():
@@ -142,14 +142,15 @@ class DemoImageProcessing(QMainWindow):
                     item = option_items.split(':')
                     if self.process_options.get(event):
                         # Set the actual value
-                        self.process_list_widget.params_dict[event] = self.process_options.get(event)
+                        self.process_list_widget.params_dict[option] = self.process_options.get(event)
                     else:
                         # Get initial value from process_list
-                        self.process_list_widget.params_dict[event] = item[-1]
-
+                        self.process_list_widget.params_dict[option] = item[-1]
+                    print(f'{option} / {type(self.process_list_widget.params_dict[option])}')
                 temp_image = process_list[event]["function"](input_image, self.process_list_widget.params_dict)
                 self.process_image_display_widget.set_image_from_image(temp_image)
 
+            print('END_process')
             self.process_list_widget.uncheck_all()
             if is_checked is True:
                 self.is_process_set = True
@@ -158,11 +159,9 @@ class DemoImageProcessing(QMainWindow):
                 self.is_process_set = False
                 self.process_image_display_widget.set_image_from_image(input_image)
                 # Clear process_image display
-                pass
-
             self.handle_resize(event)
         except Exception as e:
-            print("Exception - source loaded: " + str(e) + "")
+            print("Exception - action_process_changed: " + str(e) + "")
 
     def handle_resize(self, event):
         """

@@ -77,12 +77,17 @@ class ImageProcess:
         :rtype: Image
         
         """
-        threshold = params_dict["threshold"]
-        result = Image()
-        im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
-        ret, temp_array = cv.threshold(im_gray, threshold, 255, cv.THRESH_BINARY)
-        result.create(temp_array)
-        return result
+        try:
+            print(params_dict)
+            threshold = int(params_dict["threshold"])
+            print(type(threshold))
+            result = Image()
+            im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
+            ret, temp_array = cv.threshold(im_gray, threshold, 255, cv.THRESH_BINARY)
+            result.create(temp_array)
+            return result
+        except Exception as e:
+            print("Exception - Image.binarize: " + str(e) + "")
     
     @classmethod
     def blur(self, image:Image, params_dict:dict) -> Image:
