@@ -28,7 +28,7 @@ class ProcessOptions(QWidget):
 
     changed = pyqtSignal(str)
 
-    def __init__(self, name: str = ''):
+    def __init__(self, name: str = '') -> None:
         """Default constructor of the class.
 
         :param name: Name of the process.
@@ -38,8 +38,10 @@ class ProcessOptions(QWidget):
         super().__init__(parent=None)
         # Main layout
         self.main_layout = QVBoxLayout()
+        # Object information
+        self.name = name
         # Graphical objects
-        self.name_label = QLabel('Parameters of ' + name)
+        self.name_label = QLabel('Parameters of ' + self.name)
         self.name_label.setStyleSheet("color: darkblue; font-size: 15px;")
         self.name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.main_layout.addWidget(self.name_label)
@@ -64,7 +66,7 @@ class ProcessOptions(QWidget):
     def update_options(self, event):
         try:
             param_event = event.split(':')[-1]
-            self.changed.emit(event)
+            self.changed.emit(self.name+':'+event)
         except Exception as e:
             print("Exception - update_options: " + str(e) + "")
 
@@ -81,7 +83,7 @@ if __name__ == "__main__":
     main_window = QMainWindow()
     main_window.setWindowTitle("Source_Widget test")
     main_window.setGeometry(500, 100, 400, 600)
-    central_widget = ProcessOptions("binarize")
+    central_widget = ProcessOptions(name="binarize")
     main_window.setCentralWidget(central_widget)
 
     central_widget.changed.connect(action_changed)

@@ -16,7 +16,7 @@ from image_process import ImageProcess
 binarize_params = {
     "function": ImageProcess.binarize,
     "params": 'threshold',
-    "threshold": 'int:0:255:100'
+    "threshold": 'int:0:255:40'
 }
 blur_params = {
     "function": ImageProcess.blur,

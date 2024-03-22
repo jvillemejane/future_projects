@@ -28,6 +28,8 @@ class ProcessListWidget(QWidget):
     
     """
 
+    clicked = pyqtSignal(str)
+    checked = pyqtSignal(str)
     changed = pyqtSignal(str)
 
     def __init__(self) -> None:
@@ -42,11 +44,11 @@ class ProcessListWidget(QWidget):
         # Graphical elements of the interface
         self.selected = None
         self.processes_dict = {}
-        print('OKOKOK')
         for i, (item_name, item_function) in enumerate(process_list.items()):
             self.processes_dict[item_name] = ProcessItem(item_name)
             self.processes_dict[item_name].checked.connect(self.check_options_list)
             self.processes_dict[item_name].clicked.connect(self.click_on_options_list)
+            self.processes_dict[item_name].changed.connect(self.update_process)
             self.processes_dict[item_name].enable()
             self.main_layout.addWidget(self.processes_dict[item_name])
 
@@ -55,25 +57,53 @@ class ProcessListWidget(QWidget):
     def check_options_list(self, event) -> None:
         """Action performed when a process is checked
         """
+        is_checked = False
+        if self.processes_dict[event].check_item.isChecked():
+            is_checked = True
         self.uncheck_all()
-        self.processes_dict[event].check_item.setChecked(True)
-        self.changed.emit('check_options_list;'+event)
+        if is_checked:
+            self.processes_dict[event].check_item.setChecked(True)
+            self.processes_dict[event].enable()
+        self.checked.emit(event)
 
     def click_on_options_list(self, event) -> None:
         """Action performed when an "Options" button is clicked.
         """
-        self.changed.emit('click_on_options_list;'+event)
+        self.clicked.emit(event)
+
+    def update_process(self, event):
+        """Action performed when an option of a parameter changed.
+        """
+        self.changed.emit(event)
+
 
     def uncheck_all(self) -> None:
         """Uncheck all the checkbox.
         """
         for i, (item_name, item_function) in enumerate(process_list.items()):
             self.processes_dict[item_name].check_item.setChecked(False)
+            self.processes_dict[item_name].enable()
+
+    def enable(self):
+        """Set enabled the process list."""
+        for i, (item_name, item_function) in enumerate(process_list.items()):
+            self.processes_dict[item_name].enable()
+
+    def disable(self):
+        """Set disabled the process list."""
+        for i, (item_name, item_function) in enumerate(process_list.items()):
+            self.processes_dict[item_name].disable()
 
 
 if __name__ == "__main__":
-    def action_loaded(event):
-        print(event)
+    def action_checked(event):
+        print(f'Checked {event}')
+
+    def action_clicked(event):
+        print(f'Clicked {event}')
+
+    def action_changed(event):
+        print(f'Changed {event}')
 
     import sys
     from PyQt6.QtWidgets import (QApplication, QMainWindow)
@@ -85,7 +115,9 @@ if __name__ == "__main__":
     central_widget = ProcessListWidget()
     main_window.setCentralWidget(central_widget)
 
-    central_widget.changed.connect(action_loaded)
+    central_widget.clicked.connect(action_clicked)
+    central_widget.checked.connect(action_checked)
+    central_widget.changed.connect(action_changed)
 
     main_window.show()
     sys.exit(app.exec())

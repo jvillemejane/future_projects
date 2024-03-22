@@ -78,9 +78,7 @@ class ImageProcess:
         
         """
         try:
-            print(params_dict)
             threshold = int(params_dict["threshold"])
-            print(type(threshold))
             result = Image()
             im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
             ret, temp_array = cv.threshold(im_gray, threshold, 255, cv.THRESH_BINARY)
