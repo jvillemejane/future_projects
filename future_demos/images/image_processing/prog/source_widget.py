@@ -33,7 +33,9 @@ class SourceWidget(QWidget):
     
     """
     
-    loaded = pyqtSignal(str)
+    load_image = pyqtSignal(str)
+    start_webcam = pyqtSignal(str)
+    start_sensor = pyqtSignal(str)
     
     def __init__(self) -> None:
         """
@@ -109,7 +111,7 @@ class SourceWidget(QWidget):
         )
         file_name = filename.split('/')
         self.image_source_name_label.setText(file_name[-1])
-        self.loaded.emit('image;'+filename+';')
+        self.load_image.emit('image;'+filename+';')
 
     def action_webcam_button(self, event):
         """
@@ -118,7 +120,7 @@ class SourceWidget(QWidget):
         :param event: Triggering event.
         """
         print('Webcam')
-        self.loaded.emit('webcam;')
+        self.start_webcam.emit('webcam;')
 
     def action_sensor_button(self, event):
         """
@@ -127,7 +129,7 @@ class SourceWidget(QWidget):
         :param event: Triggering event.
         """
         print('Sensor')
-        self.loaded.emit('sensor;')
+        self.start_sensor.emit('sensor;')
 
 if __name__ == "__main__":
 

@@ -5,54 +5,54 @@ from image import Image
 
 # Square-shaped kernel - size 3
 square3 = np.array((
-	[1, 1, 1],
-	[1, 1, 1],
-	[1, 1, 1]), dtype=np.uint8)
+    [1, 1, 1],
+    [1, 1, 1],
+    [1, 1, 1]), dtype=np.uint8)
 # Square-shaped kernel - size 5
 square5 = np.array((
-	[1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1],
-	[1, 1, 1, 1, 1]), dtype=np.uint8)
+    [1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1]), dtype=np.uint8)
 # Cross-shaped kernel - size 3
 cross3 = np.array((
-	[0, 1, 0],
-	[1, 1, 1],
-	[0, 1, 0]), dtype=np.uint8)
+    [0, 1, 0],
+    [1, 1, 1],
+    [0, 1, 0]), dtype=np.uint8)
 # Cross-shaped kernel - size 5
 cross5 = np.array((
-	[0, 0, 1, 0, 0],
-	[0, 0, 1, 0, 0],
-	[1, 1, 1, 1, 1],
-	[0, 0, 1, 0, 0],
-	[0, 0, 1, 0, 0]), dtype=np.uint8)
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0],
+    [1, 1, 1, 1, 1],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0]), dtype=np.uint8)
 # Laplacian kernel used to detect edge-like regions of an image
 laplacian = np.array((
-	[0, 1, 0],
-	[1, -4, 1],
-	[0, 1, 0]), dtype="int")
+    [0, 1, 0],
+    [1, -4, 1],
+    [0, 1, 0]), dtype="int")
 # construct the Sobel x-axis kernel
 sobelX = np.array((
-	[-1, 0, 1],
-	[-2, 0, 2],
-	[-1, 0, 1]), dtype="int")
+    [-1, 0, 1],
+    [-2, 0, 2],
+    [-1, 0, 1]), dtype="int")
 # construct the Sobel y-axis kernel
 sobelY = np.array((
-	[-1, -2, -1],
-	[0, 0, 0],
-	[1, 2, 1]), dtype="int")
-
+    [-1, -2, -1],
+    [0, 0, 0],
+    [1, 2, 1]), dtype="int")
 
 kernels = {
-	"laplacian": laplacian,
+    "laplacian": laplacian,
     "sobel_x": sobelX,
-	"sobel_y": sobelY,
+    "sobel_y": sobelY,
     "square3": square3,
     "square5": square5,
     "cross3": cross3,
     "cross5": cross5
 }
+
 
 class ImageProcess:
     """
@@ -64,7 +64,7 @@ class ImageProcess:
     """
 
     @classmethod
-    def binarize(self, image:Image, params_dict:dict) -> Image:
+    def binarize(self, image: Image, params_dict: dict) -> Image:
         """
         Binarize an image.
         
@@ -88,9 +88,9 @@ class ImageProcess:
             return result
         except Exception as e:
             print("Exception - Image.binarize: " + str(e) + "")
-    
+
     @classmethod
-    def blur(self, image:Image, params_dict:dict) -> Image:
+    def blur(self, image: Image, params_dict: dict) -> Image:
         """
         Blur an image. Process a mean filter on the image.
         
@@ -108,9 +108,9 @@ class ImageProcess:
         temp_array = cv.blur(image.getPixels(), (size, size));
         result.create(temp_array)
         return result
-      
-    @classmethod  
-    def convolve(self, image:Image, params_dict:dict) -> Image:
+
+    @classmethod
+    def convolve(self, image: Image, params_dict: dict) -> Image:
         """
         Process a convolution on an image with a specific kernel.
         
@@ -130,8 +130,8 @@ class ImageProcess:
         result.create(temp_array)
         return result
 
-    @classmethod 
-    def erode(self, image:Image, params_dict:dict) -> Image:
+    @classmethod
+    def erode(self, image: Image, params_dict: dict) -> Image:
         """
         Process an erosion on an image with a specific kernel.
         
@@ -143,7 +143,7 @@ class ImageProcess:
         :return: New image.
         :rtype: Image
         
-        """        
+        """
         result = Image()
         kernel = params_dict['kernel']
         im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
@@ -151,8 +151,8 @@ class ImageProcess:
         result.create(temp_array)
         return result
 
-    @classmethod 
-    def dilate(self, image:Image, params_dict:dict) -> Image:
+    @classmethod
+    def dilate(self, image: Image, params_dict: dict) -> Image:
         """
         Process a dilatation on an image with a specific kernel.
         
@@ -164,16 +164,16 @@ class ImageProcess:
         :return: New image.
         :rtype: Image
         
-        """        
+        """
         result = Image()
         kernel = params_dict['kernel']
         im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
         temp_array = cv.dilate(im_gray, kernel, cv.BORDER_REFLECT)
         result.create(temp_array)
         return result
-       
-    @classmethod  
-    def opening(self, image:Image, params_dict:dict) -> Image:
+
+    @classmethod
+    def opening(self, image: Image, params_dict: dict) -> Image:
         """
         Process an opening on an image with a specific kernel.
         
@@ -185,16 +185,16 @@ class ImageProcess:
         :return: New image.
         :rtype: Image
         
-        """        
+        """
         result = Image()
         kernel = params_dict['kernel']
         im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
         temp_array = cv.morphologyEx(im_gray, cv.MORPH_OPEN, kernel, cv.BORDER_REFLECT)
         result.create(temp_array)
-        return result    
+        return result
 
-    @classmethod 
-    def closing(self, image:Image, params_dict:dict) -> Image:
+    @classmethod
+    def closing(self, image: Image, params_dict: dict) -> Image:
         """
         Process an opening on an image with a specific kernel.
         
@@ -206,29 +206,31 @@ class ImageProcess:
         :return: New image.
         :rtype: Image
         
-        """        
+        """
         result = Image()
         kernel = params_dict['kernel']
         im_gray = cv.cvtColor(image.getPixels(), cv.COLOR_BGR2GRAY)
         temp_array = cv.morphologyEx(im_gray, cv.MORPH_CLOSE, kernel, cv.BORDER_REFLECT)
         result.create(temp_array)
-        return result    
+        return result
 
-# Main function
+    # Main function
+
+
 if __name__ == "__main__":
     image = Image()
     image.open("../_data/robot.jpg")
     print(image)
     image.display()
-    
+
     params = {}
-    
+
     print('Binarize 100')
     image_binarize = Image()
     params['threshold'] = 100
     image_binarize = ImageProcess.binarize(image, params)
     image_binarize.display()
-    
+
     '''
     print('Blur 5')
     image_blur = Image()
@@ -240,19 +242,19 @@ if __name__ == "__main__":
     image_conv = ImageProcess.convolve(image, kernels['laplacian'])
     image_conv.display()
     '''
-    
+
     print('Erosion with a Kernel')
     image_erode = Image()
     params['kernel'] = kernels['cross5']
     image_erode = ImageProcess.erode(image, params)
-    image_erode.display()   
-    
+    image_erode.display()
+
     print('Dilatation with a Kernel')
     image_dilate = Image()
     params['kernel'] = kernels['cross5']
     image_dilate = ImageProcess.dilate(image, params)
-    image_dilate.display()  
-    
+    image_dilate.display()
+
     '''
     print('Opening with a Kernel')
     image_opening = Image()
@@ -264,4 +266,3 @@ if __name__ == "__main__":
     image_closing = ImageProcess.closing(image, kernels['square5'])
     image_closing.display() 
     '''
-    

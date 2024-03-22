@@ -77,7 +77,7 @@ class DemoImageProcessing(QMainWindow):
 
         self.source_widget = SourceWidget()
         # TO DO : resize logo and widget on window resizing
-        self.source_widget.loaded.connect(self.source_loaded)
+        self.source_widget.load_image.connect(self.load_source_image)
         self.source_widget.webcam_source_button.setEnabled(False)
         self.source_widget.sensor_source_button.setEnabled(False)
         self.process_list_widget = ProcessListWidget()
@@ -101,7 +101,7 @@ class DemoImageProcessing(QMainWindow):
         self.central_widget.setLayout(self.central_layout)
         self.setCentralWidget(self.central_widget)
 
-    def source_loaded(self, event) -> None:
+    def load_source_image(self, event) -> None:
         """
         Action performed after a click in the source widget.
         
@@ -113,10 +113,6 @@ class DemoImageProcessing(QMainWindow):
                 self.is_image_set = self.initial_image_display_widget.set_image_from_path(event_data[1], 10, 10)
                 self.process_image_display_widget.set_image_from_path(event_data[1], 10, 10)
                 self.handle_resize(event)
-            elif event_data[0] == 'webcam':
-                print('webcam - NOT YET IMPLEMENTED')
-            elif event_data[0] == 'sensor':
-                print('sensor - NOT YET IMPLEMENTED')
 
             if self.is_image_set:
                 self.process_list_widget.enable()
