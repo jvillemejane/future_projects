@@ -101,6 +101,12 @@ if __name__ == "__main__":
 
     def action_clicked(event):
         print(f'Clicked {event}')
+        try:
+            if event == "binarize":
+                dict = {"threshold": 25}
+                central_widget.processes_dict[event].params_window.set_values(dict)
+        except Exception as e:
+            print("Exception - action_clicked: " + str(e) + "")
 
     def action_changed(event):
         print(f'Changed {event}')

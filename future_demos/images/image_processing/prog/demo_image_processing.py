@@ -22,7 +22,8 @@ from PyQt6.QtCore import Qt
 
 from image_display_widget import ImageDisplayWidget
 from source_widget import SourceWidget
-from process_list_widget import ProcessListWidget, process_list
+from process_list_widget import ProcessListWidget
+from process_list import *
 
 
 class DemoImageProcessing(QMainWindow):
@@ -55,8 +56,8 @@ class DemoImageProcessing(QMainWindow):
         self.border = 30
         self.height = height - 3 * self.border
         self.width = width - 2 * self.border
-        self.height_img = self.height//2 - 1 * self.border
-        self.width_img = self.width//2
+        self.height_img = self.height // 2 - 1 * self.border
+        self.width_img = self.width // 2
         self.setGeometry(self.border, self.border, self.width, self.height)
         self.central_widget = QWidget()
 
@@ -87,6 +88,7 @@ class DemoImageProcessing(QMainWindow):
         self.process_list_widget = ProcessListWidget()
         self.process_list_widget.changed.connect(self.update_process_image)
         self.process_list_widget.checked.connect(self.check_process)
+        self.process_list_widget.clicked.connect(self.update_options)
         self.process_list_widget.disable()
 
         # internal left widget
@@ -120,7 +122,6 @@ class DemoImageProcessing(QMainWindow):
                 self.is_image_set = self.initial_image_display_widget.set_image_from_path(event_data[1], 10, 10)
                 self.process_image_display_widget.set_image_from_path(event_data[1], 10, 10)
                 self.handle_resize()
-
             if self.is_image_set:
                 self.process_list_widget.enable()
             else:
@@ -132,23 +133,16 @@ class DemoImageProcessing(QMainWindow):
         """Action performed when an option of a process changed."""
         try:
             # Update the local value of a parameter of a process.
-            print(f'update_process_image  {event}')
-
             event_split = event.split(':')
             if len(event_split) > 1:
                 option_name = event_split[2]
                 process_name = event_split[0]
-                if self.actual_values.get(process_name+':'+option_name):
-                    #
-                    #   TO COMPLETE !!
-                    #   Voir pour mettre à jour la donnée depuis le ProcessItem
-                    #   Mettre à jour le ProcessItem si données d'avant...
-                    #
-                    print(f'{process_name} : {option_name} OK')
+                if self.actual_values.get(process_name + ':' + option_name):
+                    values = self.process_list_widget.processes_dict[process_name].params_window.get_values()
+                    self.actual_values[process_name + ':' + option_name] = values[option_name]
                 else:
                     new_value = process_list[process_name][option_name].split(':')[-1]
-                    print(f'new value = {new_value}')
-                    self.actual_values[process_name+':'+option_name] = new_value
+                    self.actual_values[process_name + ':' + option_name] = new_value
             else:
                 process_name = event
             self.process_image(process_name)
@@ -156,44 +150,70 @@ class DemoImageProcessing(QMainWindow):
         except Exception as e:
             print("Exception - update_process_image: " + str(e) + "")
 
-
-    def action_process_changed(self, event):
-        """
-        Action performed when the process to apply change.
+    def update_options(self, event):
+        """Action performed when "Options" button is clicked.
         """
         try:
-            input_image = self.initial_image_display_widget.get_image()
-            is_checked = False
-            self.process_list_widget.uncheck_all()
-            if is_checked is True:
-                self.is_process_set = True
-            else:
-                self.is_process_set = False
-                self.process_image_display_widget.set_image_from_image(input_image)
-            self.handle_resize()
+            all_params = process_list[event]['params']
+            dict_values = {}
+            for id, option_name in enumerate(all_params.split(';')):
+                option_type = get_options_type(event, option_name)
+                dict_values[option_name] = 127
+                # Depending on the type of the option
+                if option_type == 'int':
+                    # If a value was not already set, take the initial value from process_list.
+                    if self.actual_values.get(event + ':' + option_name) is None:
+                        new_value = get_options_int()[-1]
+                        self.actual_values[event + ':' + option_name] = new_value
+                        dict_values[option_name] = new_value
+                    # Else get the previous stored value.
+                    else:
+                        dict_values[option_name] = self.actual_values.get(event + ':' + option_name)
+            self.process_list_widget.processes_dict[event].params_window.set_values(dict_values)
         except Exception as e:
-            print("Exception - action_process_changed: " + str(e) + "")
+            print("Exception - update_options: " + str(e) + "")
 
     def check_process(self, event):
         """Action performed when a process is checked."""
         print(f'check_process {event}')
         try:
             input_image = self.initial_image_display_widget.get_image()
+            # If the process is checked, process the image and display it.
             if self.process_list_widget.processes_dict[event].check_item.isChecked():
                 all_options = process_list[event]['params']
                 for id, option in enumerate(all_options.split(';')):
                     option_items = process_list[event][option]
                     item = option_items.split(':')
                     option_name = option
-                    if self.actual_values.get(event+':'+option_name) is None:
+                    if self.actual_values.get(event + ':' + option_name) is None:
                         new_value = int(process_list[event][option_name].split(':')[-1])
-                        self.actual_values[event+':'+option_name] = new_value
-                self.update_process_image(event)
+                        self.actual_values[event + ':' + option_name] = new_value
+                self.process_image(event)
+            # If the process is not checked, then display initial image in the process display area.
             else:
                 self.process_image_display_widget.set_image_from_image(input_image)
             self.handle_resize()
         except Exception as e:
             print("Exception - check_process: " + str(e) + "")
+
+    def process_image(self, event):
+        """Process the image with the appropriate function."""
+        try:
+            input_image = self.initial_image_display_widget.get_image()
+            option_event = event.split(':')
+            process_name = option_event[0]
+            process_dict = {}
+            all_options = get_process_options(process_name)
+            # For each parameter of the process, collect the value of the parameters.
+            for id, option_name in enumerate(all_options.split(';')):
+                option_type = get_options_type(process_name, option_name)
+                if option_type == 'int':
+                    process_dict[option_name] = self.actual_values[process_name + ':' + option_name]
+            # Process the new image.
+            temp_image = process_list[process_name]["function"](input_image, process_dict)
+            self.process_image_display_widget.set_image_from_image(temp_image)
+        except Exception as e:
+            print("Exception - process_image: " + str(e) + "")
 
     def handle_resize(self):
         """
@@ -224,37 +244,7 @@ class DemoImageProcessing(QMainWindow):
                         self.height_img, self.width_img)
 
         except Exception as e:
-            print("Exception - source loaded: " + str(e) + "")
-
-    def process_image(self, event):
-        """Process the image with the appropriate function."""
-        try:
-            input_image = self.initial_image_display_widget.get_image()
-            option_event = event.split(':')
-            process_name = option_event[0]
-            # To get from options -
-            print(f'process_image / process_name {process_name}')
-            all_options = process_list[process_name]['params']
-            for id, option in enumerate(all_options.split(';')):
-                option_items = process_list[process_name][option]
-                item = option_items.split(':')
-                print(f'Options Item {option_items} / Option = {option}')
-                self.process_list_widget.params_dict[option] = 100 #self.actual_values[process_name+':'+option]
-                '''
-                if self.process_list_widget.processes_dict[process_name].actual_values.get(option):
-                    print('new value')
-                    # Set the actual value
-                    new_value = self.process_list_widget.processes_dict[process_name].actual_values.get(option)
-                    self.process_list_widget.params_dict[option] = new_value
-                else:
-                    print('init value')
-                    # Get initial value from process_list
-                    self.process_list_widget.params_dict[option] = item[-1]
-                '''
-            temp_image = process_list[process_name]["function"](input_image, self.process_list_widget.params_dict)
-            self.process_image_display_widget.set_image_from_image(temp_image)
-        except Exception as e:
-            print("Exception - process_image: " + str(e) + "")
+            print("Exception - handle_resize: " + str(e) + "")
 
     def showEvent(self, event):
         """

@@ -12,6 +12,33 @@
 
 from image_process import ImageProcess
 
+
+def get_process_options(process_name) -> str:
+    """Return the list of available options for a process.
+
+    Each parameters are separated by ;
+    """
+    return process_list[process_name]['params']
+
+
+def get_options_type(process_name, option_name) -> str:
+    """Return the type of an option for a process."""
+    return process_list[process_name][option_name].split(':')[0]
+
+
+def get_options_int(process_name, option_name) -> tuple[int, int, int]:
+    """Return the list of available options for a process.
+
+    :return: A tuple corresponding to minimum, maximum, init value
+    :rtype: tuple[int, int, int]
+    """
+    params = process_list[process_name][option_name].split(':')
+    min = params[1]
+    max = params[2]
+    init = params[3]
+    return min, max, init
+
+
 # List of parameters for all the available process
 binarize_params = {
     "function": ImageProcess.binarize,
@@ -46,3 +73,6 @@ process_list = {
 }
 '''
 
+if __name__ == "__main__":
+    type = get_options_type("binarize", "threshold")
+    print(f'Type = {type}')

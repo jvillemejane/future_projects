@@ -107,6 +107,9 @@ if __name__ == "__main__":
 
     def action_clicked(event):
         print(f'Clicked {event}')
+        if event == "binarize":
+            dict = {"threshold": 28}
+            central_widget.params_window.set_values(dict)
 
     def action_changed(event):
         print(f'Changed {event}')

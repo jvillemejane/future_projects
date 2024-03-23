@@ -48,13 +48,14 @@ class ProcessOptions(QWidget):
         self.elem = {}
         try:
             # Create all the subitem from list of params
-            all_options = process_list[name]['params']
+            all_options = get_process_options(name)
             for id, option in enumerate(all_options.split(';')):
-                option_items = process_list[name][option]
-                item = option_items.split(':')
-                if item[0] == 'int':
+                option_type = get_options_type(name, option)
+                print(f'Option Type = {option_type}')
+                if option_type == 'int':
+                    option_vals = get_options_int(name, option)
                     self.elem[option] = WidgetSlider(name=option, integer=True, signal_name=option)
-                    self.elem[option].set_min_max_slider(float(item[1]), float(item[2]))
+                    self.elem[option].set_min_max_slider(float(option_vals[0]), float(option_vals[1]))
                     self.elem[option].slider_changed_signal.connect(self.update_options)
                     self.main_layout.addWidget(self.elem[option])
         except Exception as e:
@@ -70,11 +71,40 @@ class ProcessOptions(QWidget):
         except Exception as e:
             print("Exception - update_options: " + str(e) + "")
 
+    def set_values(self, dict_values) -> None:
+        """Update displayed values.
+        """
+        try:
+            # Create all the subitem from list of params
+            all_options = get_process_options(self.name)
+            for id, option in enumerate(all_options.split(';')):
+                option_type = get_options_type(self.name, option)
+                if option_type == 'int':
+                    self.elem[option].set_value(dict_values[option])
+        except Exception as e:
+            print("Exception - set_values: " + str(e) + "")
+
+    def get_values(self) -> dict:
+        """Get the values of the process parameters.
+        """
+        try:
+            result_dict = {}
+            # Create all the subitem from list of params
+            all_options = get_process_options(self.name)
+            for id, option in enumerate(all_options.split(';')):
+                option_type = get_options_type(self.name, option)
+                if option_type == 'int':
+                    result_dict[option] = self.elem[option].get_real_value()
+            return result_dict
+        except Exception as e:
+            print("Exception - set_values: " + str(e) + "")
+
+
+
 
 if __name__ == "__main__":
     def action_changed(event):
         print(f'Changed {event}')
-
 
     import sys
     from PyQt6.QtWidgets import (QApplication, QMainWindow)
@@ -84,6 +114,8 @@ if __name__ == "__main__":
     main_window.setWindowTitle("Source_Widget test")
     main_window.setGeometry(500, 100, 400, 600)
     central_widget = ProcessOptions(name="binarize")
+    dict = {"threshold": 100}
+    central_widget.set_values(dict)
     main_window.setCentralWidget(central_widget)
 
     central_widget.changed.connect(action_changed)
