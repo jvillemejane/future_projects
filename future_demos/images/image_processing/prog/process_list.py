@@ -10,6 +10,7 @@
 .. moduleauthor:: Julien VILLEMEJANE <julien.villemejane@institutoptique.fr>
 """
 
+import numpy as np
 from image_process import ImageProcess
 
 
@@ -48,6 +49,8 @@ binarize_params = {
 blur_params = {
     "function": ImageProcess.blur,
     "params": 'kernel;size',
+    "kernel": "ker:blur:",
+    "kernel_blur": np.ones((25, 25)),
     "size": 'odd:1:25:5'
 }
 dilate_params = {

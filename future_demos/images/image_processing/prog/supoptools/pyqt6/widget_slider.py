@@ -10,14 +10,10 @@
 
 .. moduleauthor:: Julien VILLEMEJANE <julien.villemejane@institutoptique.fr>
 """
-
-#### TO REWRITE !!! PEP8 / PEP257
-
 import sys
 
-# Third pary imports
 from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, 
+    QMainWindow,
     QGridLayout, QVBoxLayout,
     QWidget, QLineEdit, QLabel, QPushButton, QSlider,
     QMessageBox)
@@ -66,22 +62,32 @@ class WidgetSlider(QWidget):
     WidgetSlider class to create a widget with a slider and its value.
     Children of QWidget
 
-    :param ratio_slider: Use to display non integer on the Slider.
-        Defaults to 10.0.
-    :type ratio_slider: float
-    
-    .. note::
-        
+    .. attribute:: ratio_slider
+
+        Use to display non integer on the Slider.
+
         For example, with a ratio_slider at 10, the slider
         value of 500 corresponds to a real value of 50.0.
 
+        :type: float
 
-    max_real_value : float
+    .. attribute:: max_real_value
+
         Maximum value of the slider.
-    min_real_value : float
+
+        :type: float
+
+    .. attribute:: min_real_value
+
         Minimum value of the slider.
-    real_value : float
+
+        :type: float
+
+    .. attribute:: real_value
+
         Value of the slider.
+
+        :type: float
 
     """
 
@@ -148,7 +154,6 @@ class WidgetSlider(QWidget):
         for i in range(self.main_layout.columnCount()):
             self.main_layout.setColumnStretch(i, 1)
 
-        ''' Events '''
         self.slider.valueChanged.connect(self.slider_changed)
         self.set_value(self.real_value)
         self.update_button.clicked.connect(self.value_changed)
@@ -266,32 +271,29 @@ class WidgetSlider(QWidget):
         self.update_display()
 
 
-# -----------------------------------------------------------------------------------------------
-# Only for testing
-class MyWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-
-        self.setWindowTitle("Widget Slider test")
-        self.setGeometry(300, 300, 200, 100)
-
-        self.centralWid = QWidget()
-        self.layout = QVBoxLayout()
-
-        self.slider_widget = WidgetSlider()
-        self.slider_widget.set_min_max_slider(20, 50)
-        self.slider_widget.set_units('Hz')
-        self.slider_widget.set_name('Slider to test')
-        self.layout.addWidget(self.slider_widget)
-
-        self.centralWid.setLayout(self.layout)
-        self.setCentralWidget(self.centralWid)
-
-
-# Launching as main for tests
-from PyQt6.QtWidgets import QApplication
-
 if __name__ == '__main__':
+    from PyQt6.QtWidgets import QApplication
+
+    class MyWindow(QMainWindow):
+        def __init__(self):
+            super().__init__()
+
+            self.setWindowTitle("Widget Slider test")
+            self.setGeometry(300, 300, 200, 100)
+
+            self.centralWid = QWidget()
+            self.layout = QVBoxLayout()
+
+            self.slider_widget = WidgetSlider()
+            self.slider_widget.set_min_max_slider(20, 50)
+            self.slider_widget.set_units('Hz')
+            self.slider_widget.set_name('Slider to test')
+            self.layout.addWidget(self.slider_widget)
+
+            self.centralWid.setLayout(self.layout)
+            self.setCentralWidget(self.centralWid)
+
+
     app = QApplication(sys.argv)
     main = MyWindow()
     main.show()

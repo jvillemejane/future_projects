@@ -58,6 +58,15 @@ class ProcessOptions(QWidget):
                     self.elem[option].set_min_max_slider(float(option_vals[0]), float(option_vals[1]))
                     self.elem[option].slider_changed_signal.connect(self.update_options)
                     self.main_layout.addWidget(self.elem[option])
+                elif option_type == 'ker':
+                    print('KERNEL')
+                    self.elem[option] = QLabel(option)
+                    self.main_layout.addWidget(self.elem[option])
+                elif option_type == 'odd':
+                    print('ODD')
+                    self.elem[option] = QLabel(option)
+                    self.main_layout.addWidget(self.elem[option])
+
         except Exception as e:
             print("Exception - params_init: " + str(e) + "")
 

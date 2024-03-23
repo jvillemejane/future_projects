@@ -78,14 +78,17 @@ class Image:
         :type pixels: np.ndarray
         
         """
-        self.pixels = pixels        
-        self.height = self.pixels.shape[0]
-        self.width = self.pixels.shape[1]
-        if len(self.pixels.shape) > 2:
-            self.channels = self.pixels.shape[2]
-        else:
-            self.channels = 1
-        
+        try:
+            self.pixels = pixels
+            print(f'Shape = {self.pixels.shape}')
+            self.height = self.pixels.shape[0]
+            self.width = self.pixels.shape[1]
+            if len(self.pixels.shape) > 2:
+                self.channels = self.pixels.shape[2]
+            else:
+                self.channels = 1
+        except Exception as e:
+            print("Exception - Image.create: " + str(e) + "")
     
     def display(self, width:int = 0, height:int = 0) -> None:
         """
@@ -215,8 +218,12 @@ if __name__ == "__main__":
     image.display()
     # image.display(100, 60)
     
-    image.changeContrast(0.7)
+    image.change_contrast(0.7)
     image.display()
     
-    image.changeBrightness(-20)
+    image.change_brightness(-20)
+    image.display()
+
+    image_to_disp = np.ones((300, 800))
+    image.create(image_to_disp)
     image.display()

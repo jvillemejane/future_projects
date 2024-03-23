@@ -177,10 +177,10 @@ class ImageDisplayWidget(QWidget):
         # Convert OpenCV image to QImage
         bytes_per_line = channels * width
         if channels == 1:
-            format = QImage.Format.Format_Grayscale8
+            format_image = QImage.Format.Format_Grayscale8
         else:
-            format = QImage.Format.Format_BGR888
-        q_image = QImage(self.image_resized.getPixels(), width, height, bytes_per_line, format)
+            format_image = QImage.Format.Format_BGR888
+        q_image = QImage(self.image_resized.getPixels(), width, height, bytes_per_line, format_image)
         
         # Display QImage in QLabel
         self.image_display.setPixmap(QPixmap.fromImage(q_image))
@@ -213,6 +213,8 @@ if __name__ == "__main__":
     main_window.setCentralWidget(central_widget)
     
     central_widget.set_image_from_path('../_data/robot.jpg')
+    image = np.ones((100, 200))
+    central_widget.set_image_from_array(image)
     
     main_window.show()
     sys.exit(app.exec())
