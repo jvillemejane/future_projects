@@ -2,6 +2,7 @@ import numpy as np
 import cv2 as cv
 import os
 
+
 class Image:
     """
     Class to represent an image.
@@ -18,18 +19,18 @@ class Image:
     :type pixels: numpy.ndarray
     
     """
-    
+
     def __init__(self) -> None:
         """
         Initialize the Image object.
         
         """
-        self.width = 0              # Width of the image
-        self.height = 0             # Height of the image
-        self.channels = 0           # Number of color values for each pixel
-        self.type = None            # Type of image (PNG, JPG, PGM...)
+        self.width = 0  # Width of the image
+        self.height = 0  # Height of the image
+        self.channels = 0  # Number of color values for each pixel
+        self.type = None  # Type of image (PNG, JPG, PGM...)
         self.pixels = np.array([])  # Value of each pixel
-        
+
     def open(self, filename: str = '') -> bool:
         """
         Open an image file.
@@ -44,16 +45,16 @@ class Image:
         self.pixels = cv.imread(filename);
         if self.pixels is None:
             return False
-        temp_str = os.path.splitext(filename)[1]        
-        self.type = temp_str[1:].upper()        
-        self.height = self.pixels.shape[0];	
+        temp_str = os.path.splitext(filename)[1]
+        self.type = temp_str[1:].upper()
+        self.height = self.pixels.shape[0];
         self.width = self.pixels.shape[1];
         if len(self.pixels.shape) > 2:
             self.channels = self.pixels.shape[2]
         else:
             self.channels = 1
         return True
-        
+
     def write(self, filename: str) -> bool:
         """
         Open an image file.
@@ -69,7 +70,7 @@ class Image:
             return False
         success = cv.imwrite(filename, self.pixels)
         return success
-    
+
     def create(self, pixels: np.ndarray) -> None:
         """
         Create an image from an array.
@@ -80,7 +81,6 @@ class Image:
         """
         try:
             self.pixels = pixels
-            print(f'Shape = {self.pixels.shape}')
             self.height = self.pixels.shape[0]
             self.width = self.pixels.shape[1]
             if len(self.pixels.shape) > 2:
@@ -89,8 +89,8 @@ class Image:
                 self.channels = 1
         except Exception as e:
             print("Exception - Image.create: " + str(e) + "")
-    
-    def display(self, width:int = 0, height:int = 0) -> None:
+
+    def display(self, width: int = 0, height: int = 0) -> None:
         """
         Display an image in a window.
 
@@ -99,7 +99,7 @@ class Image:
         :param height: Height of the window. Default 0, height of the image.
         :type height: int
 
-        """  
+        """
         print("Press a key to close the window")
         if width == 0 and height == 0:
             cv.imshow("Image", self.pixels)
@@ -109,7 +109,7 @@ class Image:
         # Wait for a key press and close the window
         cv.waitKey(0)
         cv.destroyAllWindows()
-    
+
     def getPixels(self) -> np.ndarray:
         """
         Return the array of pixels.
@@ -139,8 +139,8 @@ class Image:
         
         """
         return self.channels
-        
-    def change_contrast(self, contrast:float) -> None:
+
+    def change_contrast(self, contrast: float) -> None:
         """
         Change the contrast of the image.
 
@@ -152,7 +152,7 @@ class Image:
             contrast = 1.0
         self.pixels = cv.convertScaleAbs(self.pixels, alpha=contrast)
 
-    def change_brightness(self, brightness:int) -> None:
+    def change_brightness(self, brightness: int) -> None:
         """
         Change the brightness of the image.
 
@@ -167,7 +167,6 @@ class Image:
         brightness = brightness * 127 / 100
         self.pixels = cv.convertScaleAbs(self.pixels, beta=brightness)
 
-    
     def resize_image_ratio(self, new_height: int, new_width: int) -> np.ndarray:
         """
         Create a new image at a different size, with the same aspect ratio.
@@ -182,7 +181,7 @@ class Image:
 
         """
         aspect_ratio = self.width / self.height
-        
+
         # Calculate new size with same aspect_ratio
         n_width = new_width
         n_height = int(n_width / aspect_ratio)
@@ -192,7 +191,7 @@ class Image:
         else:
             n_width = new_width
             n_height = int(n_width / aspect_ratio)
-        
+
         resized_array = cv.resize(self.pixels, (n_width, n_height))
         # Generate a new image
         resized_image = Image()
@@ -207,7 +206,7 @@ class Image:
         :rtype: str
         """
         return f"Image / Type: {self.type} / (W,H) = ({self.width}, {self.height}) / C = {self.channels}"
-        
+
 
 # Main function
 if __name__ == "__main__":
@@ -217,13 +216,13 @@ if __name__ == "__main__":
     image.write("robot2.png")
     image.display()
     # image.display(100, 60)
-    
+
     image.change_contrast(0.7)
     image.display()
-    
+
     image.change_brightness(-20)
     image.display()
 
-    image_to_disp = np.ones((300, 800))
+    image_to_disp = 50 * np.ones((300, 800), dtype=np.uint8)
     image.create(image_to_disp)
     image.display()

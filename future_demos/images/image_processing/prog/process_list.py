@@ -34,11 +34,36 @@ def get_options_int(process_name, option_name) -> tuple[int, int, int]:
     :rtype: tuple[int, int, int]
     """
     params = process_list[process_name][option_name].split(':')
-    min = params[1]
-    max = params[2]
-    init = params[3]
-    return min, max, init
+    min_v = params[1]
+    max_v = params[2]
+    init_v = params[3]
+    return min_v, max_v, init_v
 
+
+def get_options_ker_kernel(process_name, option_name) -> np.ndarray:
+    """Get the initial kernel if exists."""
+    options_values = process_list[process_name][option_name].split(':')
+    if len(options_values) > 1:
+        kernel_init = process_list[process_name][option_name + '_init']
+        return kernel_init
+    init_size = (3, 3)
+    return np.ones(init_size, dtype=np.uint8)
+
+
+def get_options_ker(process_name) -> str:
+    """Get the initial kernel if exists."""
+    options_values = process_list[process_name]['kernel'].split(':')
+    return options_values
+def get_options_ker_param(process_name, option_name) -> str:
+    """Get the initial kernel if exists."""
+    options_values = process_list[process_name]['kernel_'+option_name].split(':')
+    return options_values
+
+'''
+"kernel": "ker:size",
+"kernel_init": np.ones((3, 3)),
+"kernel_size": 'odd:1:7:3'
+'''
 
 # List of parameters for all the available process
 binarize_params = {
@@ -48,18 +73,20 @@ binarize_params = {
 }
 blur_params = {
     "function": ImageProcess.blur,
-    "params": 'kernel;size',
-    "kernel": "ker:blur:",
-    "kernel_blur": np.ones((25, 25)),
-    "size": 'odd:1:25:5'
+    "params": 'kernel',
+    "kernel": "ker:size",
+    "kernel_init": np.ones((3, 3)),
+    "kernel_size": 'odd:1:7:3'
 }
 dilate_params = {
     "function": ImageProcess.dilate,
-    "params": 'kernel'
+    "params": 'kernel',
+    "kernel": "ker"
 }
 erode_params = {
     "function": ImageProcess.erode,
-    "params": 'kernel'
+    "params": 'kernel',
+    "kernel": "ker"
 }
 
 # List of the available process / filters

@@ -72,7 +72,6 @@ class ProcessItem(QWidget):
         """
         try:
             if self.check_item.isChecked():
-                pass
                 self.params_window = ProcessOptions(self.name_label.text())
                 self.params_window.changed.connect(self.action_changed_params)
                 self.params_window.show()

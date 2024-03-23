@@ -17,6 +17,7 @@ from PyQt6.QtWidgets import (
     QVBoxLayout
 )
 from PyQt6.QtGui import QPixmap, QImage, QColor, QPalette
+from PyQt6.QtCore import Qt
 
 class ImageDisplayWidget(QWidget):
     """Generate a widget to display an image. Children of QWidget.
@@ -58,7 +59,8 @@ class ImageDisplayWidget(QWidget):
         self.image = Image()  # Initial image
         self.image_resized = Image() # Resized image
         self.image_display = QLabel(name)
-        blank_image = np.ones((self.height, self.width, 3))
+        self.image_display.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        blank_image = np.ones((self.height, self.width, 3), dtype=np.uint8)
         blank_image[:,:,0] = bg[0]*blank_image[:,:,0]
         blank_image[:,:,1] = bg[1]*blank_image[:,:,1]
         blank_image[:,:,2] = bg[2]*blank_image[:,:,2]
@@ -212,8 +214,8 @@ if __name__ == "__main__":
     central_widget = ImageDisplayWidget()
     main_window.setCentralWidget(central_widget)
     
-    central_widget.set_image_from_path('../_data/robot.jpg')
-    image = np.ones((100, 200))
+    #central_widget.set_image_from_path('../_data/robot.jpg')
+    image = 140*np.ones((100, 200), dtype=np.uint8)
     central_widget.set_image_from_array(image)
     
     main_window.show()
