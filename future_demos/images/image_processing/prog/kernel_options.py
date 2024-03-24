@@ -128,7 +128,7 @@ class KernelOptions(QWidget):
 
     def elem_updated(self, event):
         """Action performed when a param is updated."""
-        new_value = self.elem[event].get_real_value()
+        # new_value = self.elem[event].get_real_value()
         print(f'elem_updated {event} / New Value = {new_value}')
 
 

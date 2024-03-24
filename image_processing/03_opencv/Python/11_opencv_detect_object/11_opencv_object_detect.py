@@ -11,6 +11,9 @@
 @see for FC : https://pyimagesearch.com/2016/02/01/opencv-center-of-contour/
 @see for FC : https://pyimagesearch.com/2016/02/08/opencv-shape-detection/
 @see https://docs.opencv.org/3.4/d4/d73/tutorial_py_contours_begin.html
+
+Industrial Applications
+@see https://patrick-bonnin.developpez.com/cours/vision/apprendre-bases-traitement-image/partie-5-segmentation-contour/
 """
 
 import cv2 as cv
