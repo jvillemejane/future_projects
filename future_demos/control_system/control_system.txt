@@ -1,0 +1,5 @@
+
+To do
+-----
+
+- Create a 2nd order system with G0, m, wc with possibility to change those parameters / display bode and step response
