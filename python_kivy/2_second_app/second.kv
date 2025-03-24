@@ -1,0 +1,29 @@
+<Button>
+    background_color: 0, 0, 1, 1
+    font_size: 50
+
+<MyGrid>
+    name: name_id
+
+    GridLayout:
+        cols:1
+        size: root.width-50, root.height-50
+        pos: 25, 25
+
+        GridLayout:
+            cols:2
+
+            Label:
+                text: "Name: "
+            TextInput:
+                id: name_id
+                multiline: False
+
+        Label:
+            text: "Name"
+
+        Button:
+            id: btn
+            text: "Test submit" if btn.state == 'normal' else 'Clicked'
+
+            on_press:root.pressed_button()
