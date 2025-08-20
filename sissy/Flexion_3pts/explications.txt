@@ -1,0 +1,11 @@
+
+Type de graphique : Résumé statistique par groupe avec moyenne et dispersion
+============================================================================
+
+Quand on ajoute la moyenne et un cercle/ellipse représentant l’écart-type, on fait une analyse de la distribution bivariée.
+
+L’ellipse d’écart-type est une approximation visuelle des contours de probabilité d’une loi normale bivariée.
+
+En statistique descriptive, on appelle ça une ellipse de confiance ou ellipse de dispersion.
+--
+Dans les articles scientifiques, on parle souvent d’“ellipse de confiance” (confidence ellipse) quand elle correspond à un intervalle de confiance sur les moyennes, et d’“ellipse de dispersion” (standard deviation ellipse) quand elle représente simplement 1 écart-type autour des données.
